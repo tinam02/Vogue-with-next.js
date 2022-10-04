@@ -10,7 +10,7 @@ const FBContextProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [favArticles, setFavArticles] = useState([]);
   const [currentUser, setCurrentUser] = useState(auth.currentUser);
-  console.log(currentUser);
+  
   const addUserToDB = async (user) => {
     const userRef = doc(db, "users", user.uid);
     const docSnap = await getDoc(userRef);
