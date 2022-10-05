@@ -1,7 +1,12 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import { collection, getDocs, getDoc, setDoc, doc } from "firebase/firestore";
 import { auth, provider, db } from "../firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut,
+} from "firebase/auth";
 
 const FBContext = createContext();
 
@@ -10,7 +15,7 @@ const FBContextProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [favArticles, setFavArticles] = useState([]);
   const [currentUser, setCurrentUser] = useState(auth.currentUser);
-  
+
   const addUserToDB = async (user) => {
     const userRef = doc(db, "users", user.uid);
     const docSnap = await getDoc(userRef);
@@ -23,26 +28,32 @@ const FBContextProvider = ({ children }) => {
       });
     }
   };
-  const signIn = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        const user = result.user;
-        setCurrentUser(user);
-        addUserToDB(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(error);
-      });
-  };
+  const signIn = useCallback(async () => {
+    try {
+      const response = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(response);
+      // const token = credential.accessToken;
+      const user = response.user;
+      setCurrentUser(user);
+      addUserToDB(user);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const logOut = useCallback(async () => {
+    try {
+      await signOut(auth);
+      console.log("logo", currentUser);
+      setCurrentUser(null);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
-    if (current === null) return;
-
-    setCurrentUser(current);
+    if (!current) return;
+    if (current) setCurrentUser(current);
   }, [current]);
 
   useEffect(() => {
@@ -66,7 +77,9 @@ const FBContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <FBContext.Provider value={{ signIn, users, currentUser, favArticles }}>
+    <FBContext.Provider
+      value={{ signIn, logOut, users, currentUser, favArticles }}
+    >
       {children}
     </FBContext.Provider>
   );

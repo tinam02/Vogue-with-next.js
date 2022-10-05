@@ -16,7 +16,6 @@ export const GET_SEASONS = gql`
   }
 `;
 
-
 export const GET_COLLECTION_IMAGES = gql`
   {
     fashionGalleryByType(
@@ -166,6 +165,10 @@ export const GET_ARTICLE = gql`
       photosTout {
         ... on Image {
           url
+          width
+          height
+          resizedUrl(w: 400)
+          altText
         }
       }
       channel {
