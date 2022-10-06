@@ -1,5 +1,12 @@
 import { createContext, useState, useCallback, useEffect } from "react";
-import { collection, getDocs, getDoc, setDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  setDoc,
+  doc,
+  addDoc,
+} from "firebase/firestore";
 import { auth, provider, db } from "../firebase";
 import {
   GoogleAuthProvider,
@@ -12,9 +19,16 @@ const FBContext = createContext();
 
 const FBContextProvider = ({ children }) => {
   const current = auth.currentUser;
-  const [users, setUsers] = useState([]);
   const [favArticles, setFavArticles] = useState([]);
   const [currentUser, setCurrentUser] = useState(auth.currentUser);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) setCurrentUser(user);
+      else setCurrentUser(null);
+    });
+    return unsubscribe;
+  }, []);
 
   const addUserToDB = async (user) => {
     const userRef = doc(db, "users", user.uid);
@@ -24,10 +38,10 @@ const FBContextProvider = ({ children }) => {
         name: user.displayName,
         email: user.email,
         avatar: user.photoURL,
-        favArticles: [],
       });
     }
   };
+
   const signIn = useCallback(async () => {
     try {
       const response = await signInWithPopup(auth, provider);
@@ -51,34 +65,44 @@ const FBContextProvider = ({ children }) => {
     }
   }, [currentUser]);
 
-  useEffect(() => {
-    if (!current) return;
-    if (current) setCurrentUser(current);
-  }, [current]);
+  const addFavArticle = useCallback(
+    async (article) => {
+      if (!currentUser) return;
+
+      if (favArticles.some((fav) => fav.url === article.url)) {
+        console.log("vec sacuvano");
+        return;
+      }
+      const userRef = doc(db, "users", currentUser.uid);
+      const favArticlesRef = collection(userRef, "favorites");
+      await addDoc(favArticlesRef, article);
+      setFavArticles((prev) => [...prev, article]);
+    },
+    [currentUser, favArticles]
+  );
 
   useEffect(() => {
-    const getUsers = async () => {
-      const usersRef = collection(db, "users");
-      const usersSnapshot = await getDocs(usersRef);
-      const users = usersSnapshot.docs.map((doc) => doc.data());
-      setUsers(users);
-    };
-    getUsers();
-  }, []);
+    const getFaves = async () => {
+      if (!currentUser) return;
 
-  useEffect(() => {
-    const getData = async () => {
-      const favArticlesRef = collection(db, "favorite_articles");
-      const favArticlesSnapshot = await getDocs(favArticlesRef);
-      const favArticles = favArticlesSnapshot.docs.map((doc) => doc.data());
-      setFavArticles(favArticles);
+      try {
+        const userRef = doc(db, "users", currentUser.uid);
+        const favesRef = collection(userRef, "favorites");
+        const favesSnapshot = await getDocs(favesRef);
+        if (favesSnapshot.empty) return;
+        const faves = favesSnapshot.docs.map((doc) => doc.data());
+        setFavArticles(faves);
+        return faves;
+      } catch (error) {
+        console.log(error);
+      }
     };
-    getData();
-  }, []);
+    getFaves();
+  }, [currentUser]);
 
   return (
     <FBContext.Provider
-      value={{ signIn, logOut, users, currentUser, favArticles }}
+      value={{ signIn, logOut, currentUser, addFavArticle, favArticles }}
     >
       {children}
     </FBContext.Provider>

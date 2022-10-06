@@ -132,12 +132,11 @@ export const GET_CONTENT = gql`
 `; //content in channel
 
 export const GET_ARTICLE = gql`
-  {
-    articleCopilot(
-      url: "https://www.vogue.com/slideshow/phil-ohs-best-street-style-photos-from-the-paris-spring-2023-shows"
-    ) {
+  query articleCopilot($url: String) {
+    articleCopilot(url: $url) {
       title
       promoTitle
+      url
       contributor {
         photographer {
           name
