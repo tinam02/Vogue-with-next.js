@@ -8,6 +8,7 @@ import client from "../apollo";
 import createEmotionCache from "../styles/emotioncache";
 import themeOptions from "../styles/theme";
 
+
 const emoCache = createEmotionCache();
 const lightTheme = createTheme(themeOptions);
 

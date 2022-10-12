@@ -1,11 +1,17 @@
 import Head from "next/head";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { FBContext } from "../context/FBContext";
-import Article from "../components/Articles/Article";
+import Article from "../components/Cards/Article";
 import { Button, Grid } from "@mui/material";
+import { useRouter } from "next/router";
 
 export default function Favorites() {
-  const { favArticles } = useContext(FBContext);
+  const { favArticles, currentUser, loading } = useContext(FBContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!(currentUser || loading)) router.push("/");
+  }, [currentUser, router, loading]);
 
   return (
     <div>

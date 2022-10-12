@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { personFields, fashionShowGalleryFields } from "./fragments";
 
 export const GET_SEASONS = gql`
   query allSeasons($searchTerm: String) {
@@ -17,11 +18,11 @@ export const GET_SEASONS = gql`
 `;
 
 export const GET_COLLECTION_IMAGES = gql`
-  {
+  query fashionGalleryByType($brandSlug: String!, $seasonSlug: String!) {
     fashionGalleryByType(
-      brandSlug: "chanel"
+      brandSlug: $brandSlug
       galleryType: collection
-      seasonSlug: "spring-2022-couture"
+      seasonSlug: $seasonSlug
     ) {
       photosTout {
         ... on Image {
@@ -49,6 +50,77 @@ export const GET_COLLECTION_IMAGES = gql`
               }
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_REVIEW_IMAGES = gql`
+  ${fashionShowGalleryFields}
+  query fashionShowV2($slug: String) {
+    fashionShowV2(slug: $slug) {
+      photosTout {
+        ... on Image {
+          url
+        }
+      }
+      GMTPubDate
+      GMTModDate
+      channel {
+        name
+      }
+      livestream
+      city {
+        id
+        name
+      }
+      brand {
+        id
+        name
+        designers {
+          name
+        }
+      }
+      season {
+        id
+        name
+      }
+      review {
+        id
+        title
+        body
+        contributor {
+          author {
+            name
+            photosTout {
+              ... on Image {
+                url
+              }
+            }
+          }
+        }
+      }
+      galleries {
+        collection {
+          id
+          title
+          slideCount
+          slidesV2 {
+            slide {
+              ... on CollectionSlide {
+                photosTout {
+                  ... on Image {
+                    url
+                    altText
+                  }
+                }
+              }
+            }
+          }
+        }
+        detail {
+          ...fashionShowGalleryFields
         }
       }
     }
@@ -84,13 +156,37 @@ export const GET_BRANDS = gql`
 `;
 
 export const GET_BRAND = gql`
+  ${personFields}
   {
     brand(
       id: "QnJhbmQ6NTVjNjRlNGZjNGU2YTJkOGRjZGUyODE2"
       slug: "maison-martin-margiela"
       url: "https://www.vogue.com/fashion-shows/designer/maison-martin-margiela"
     ) {
+      _cursor_
       name
+      description
+      designers {
+        ...personFields
+      }
+      previousDesigners {
+        ...personFields
+      }
+      photosTout {
+        ... on Image {
+          id
+        }
+      }
+      GMTPubDate
+      slug
+      url
+      fashionShows {
+        fashionShow {
+          title
+          url
+          id
+        }
+      }
     }
   }
 `;
@@ -130,6 +226,113 @@ export const GET_CONTENT = gql`
     }
   }
 `; //content in channel
+
+export const GET_LATEST_SHOWS = gql`
+  query allContent($after: String) {
+    allContent(first: 10, after: $after, type: ["FashionShowV2"]) {
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
+      Content {
+        title
+        ... on FashionShowV2 {
+          id
+          url
+          title
+          season {
+            id
+            slug
+            name
+          }
+          brand {
+            id
+            slug
+            name
+          }
+        }
+        photosTout {
+          ... on Image {
+            url
+          }
+        }
+        GMTPubDate
+        url
+        tags {
+          name
+        }
+        channels {
+          slug
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const GET_LATEST_SHOW = gql`
+  {
+    allContent(first: 1, type: ["FashionShowV2"]) {
+      Content {
+        title
+        ... on FashionShowV2 {
+          id
+          url
+          title
+          slug
+          livestream
+          galleries {
+            ... on FashionShowGalleries {
+              detail {
+                slidesV2 {
+                  slide {
+                    ... on Slide {
+                      photosTout {
+                        ... on Image {
+                          url
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              collection {
+                slidesV2 {
+                  slide {
+                    ... on CollectionSlide {
+                      photosTout {
+                        ... on Image {
+                          url
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          season {
+            id
+            slug
+            name
+          }
+          brand {
+            id
+            slug
+            name
+            description
+            designers {
+              ... on Person {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 export const GET_ARTICLE = gql`
   query articleCopilot($url: String) {
@@ -178,6 +381,23 @@ export const GET_ARTICLE = gql`
     }
   }
 `; //link to article and image
-
-// https://graphql.vogue.com/graphql?query={allSeasons{Season{name%20slug}}}
 //https://www.vogue.com/graphiql
+// {
+//   article(id: "Q29udGVudDoxMzQzOTMwMw==") {
+//     ...contentFields
+
+//   }
+// }
+
+// fragment contentFields on Content {
+//   id,
+
+//   slug,
+//   title,
+//   dek,
+//   pubDate,
+//   url,
+//   feedcardRepresentation,
+//   body,
+
+// }

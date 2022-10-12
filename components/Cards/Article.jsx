@@ -8,22 +8,21 @@ import { FBContext } from "../../context/FBContext";
 const Article = ({
   url = "https://www.vogue.com/slideshow/phil-ohs-best-street-style-photos-from-the-paris-spring-2023-shows",
 }) => {
-  const {addFavArticle} = useContext(FBContext)
+  const { addFavArticle } = useContext(FBContext);
   const { loading, error, data } = useQuery(GET_ARTICLE, {
     variables: { url: url },
   });
 
   const addFave = () => {
-    if(!data) return;
-    console.log(data);
-    addFavArticle(data.articleCopilot)
+    if (!data) return;
+    addFavArticle(data.articleCopilot);
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error...</p>;
   if (!data) return null;
   return (
-    <Box sx={{ backgroundColor: "skyblue" ,m:0}}>
+    <Box sx={{ backgroundColor: "skyblue", m: 0 }}>
       {data.articleCopilot.title}
       <Image
         height={200}

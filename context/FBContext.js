@@ -18,14 +18,16 @@ import {
 const FBContext = createContext();
 
 const FBContextProvider = ({ children }) => {
-  const current = auth.currentUser;
   const [favArticles, setFavArticles] = useState([]);
-  const [currentUser, setCurrentUser] = useState(auth.currentUser);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) setCurrentUser(user);
       else setCurrentUser(null);
+      setLoading(false);
     });
     return unsubscribe;
   }, []);
@@ -58,16 +60,19 @@ const FBContextProvider = ({ children }) => {
   const logOut = useCallback(async () => {
     try {
       await signOut(auth);
-      console.log("logo", currentUser);
       setCurrentUser(null);
+      setFavArticles([]);
     } catch (error) {
       console.log(error);
     }
-  }, [currentUser]);
+  }, []);
 
   const addFavArticle = useCallback(
     async (article) => {
-      if (!currentUser) return;
+      if (!currentUser) {
+        setFavArticles([]);
+        return;
+      }
 
       if (favArticles.some((fav) => fav.url === article.url)) {
         console.log("vec sacuvano");
@@ -102,7 +107,7 @@ const FBContextProvider = ({ children }) => {
 
   return (
     <FBContext.Provider
-      value={{ signIn, logOut, currentUser, addFavArticle, favArticles }}
+      value={{ signIn, logOut, currentUser,loading, addFavArticle, favArticles }}
     >
       {children}
     </FBContext.Provider>

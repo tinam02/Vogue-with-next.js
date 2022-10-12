@@ -9,7 +9,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       )
     );
 
-  // if (networkError) console.log(`[Network error]: ${networkError}`);
+  if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 const link = from([
   errorLink,
@@ -18,7 +18,7 @@ const link = from([
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: link,
+  link,
 });
 
 export default client;
