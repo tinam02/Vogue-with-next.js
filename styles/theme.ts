@@ -1,6 +1,10 @@
 import { ThemeOptions } from "@mui/material/styles";
 
 const themeOptions: ThemeOptions = {
+  typography: {
+    fontFamily: ["BB Condensed", "BB", "Roboto", "Times New Roman"].join(","),
+  },
+
   palette: {
     mode: "light",
     primary: {

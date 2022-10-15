@@ -43,19 +43,16 @@ const CollectionPage = () => {
         whiteSpace: "pre-wrap",
       }}
     >
-      {brand.name} {channel.name} {city.name} {season.name} {photosTout?.url}
+      {brand.name} {channel.name} {city.name} {season.name}
       {body} {contributor.author[0].name}
       <Grid container spacing={2}>
-        {slides.map((slide, idx) => (
+        {collection.slidesV2.slide.map((slide, idx) => (
           <Grid item xs={12} sm={6} md={3} key={idx}>
             <Image
-              src={slide.src}
-              alt={slide.alt}
+              src={slide.photosTout.resizedUrl}
+              alt={slide.photosTout.altText}
               sx={{
-                p: {
-                  xs: 0,
-                  sm: 1,
-                },
+                cursor: "pointer",
               }}
               onClick={() => setOpenImgIdx(idx)}
             />
@@ -79,30 +76,3 @@ const CollectionPage = () => {
 };
 
 export default CollectionPage;
-
-// import React from "react";
-// import { useRouter } from "next/router";
-// import { useQuery } from "@apollo/client";
-// import { GET_COLLECTION_IMAGES } from "../../queries";
-
-// const CollectionPage = () => {
-//   const router = useRouter();
-//   const { brandSlug, seasonSlug } = router.query;
-//   const { loading, data } = useQuery(GET_COLLECTION_IMAGES, {
-//     variables: {
-//       brandSlug,
-//       seasonSlug,
-//     },
-//   });
-
-//   if (loading) return <p>Loading...</p>;
-//   if (!data) return <p>no data</p>;
-//   console.log(data);
-//   return (
-//     <div>
-//       <h1>Collection Page </h1>
-//     </div>
-//   );
-// };
-
-// export default CollectionPage;

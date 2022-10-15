@@ -112,6 +112,7 @@ export const GET_REVIEW_IMAGES = gql`
                 photosTout {
                   ... on Image {
                     url
+                    resizedUrl(w: 500)
                     altText
                   }
                 }
@@ -229,7 +230,7 @@ export const GET_CONTENT = gql`
 
 export const GET_LATEST_SHOWS = gql`
   query allContent($after: String) {
-    allContent(first: 10, after: $after, type: ["FashionShowV2"]) {
+    allContent(first: 12, after: $after, type: ["FashionShowV2"]) {
       pageInfo {
         hasNextPage
         startCursor
@@ -240,11 +241,11 @@ export const GET_LATEST_SHOWS = gql`
         ... on FashionShowV2 {
           id
           url
-          title
           season {
             id
             slug
             name
+            major
           }
           brand {
             id
@@ -255,6 +256,7 @@ export const GET_LATEST_SHOWS = gql`
         photosTout {
           ... on Image {
             url
+            resizedUrl(w: 500)
           }
         }
         GMTPubDate
@@ -304,6 +306,7 @@ export const GET_LATEST_SHOW = gql`
                       photosTout {
                         ... on Image {
                           url
+                          resizedUrl(w: 600)
                         }
                       }
                     }

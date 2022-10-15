@@ -1,8 +1,8 @@
 import { useCallback, useRef } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_LATEST_SHOWS } from "../../queries";
-import { Box, Button } from "@mui/material";
-
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import ShowCard from "./ShowCard";
 
 const LatestShows = () => {
   const { loading, error, data, fetchMore } = useQuery(GET_LATEST_SHOWS, {
@@ -51,36 +51,49 @@ const LatestShows = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error...</p>;
   if (!data) return null;
-
+  console.log(data);
   return (
-    <>
-      <Box sx={{ backgroundColor: "red" }}>
+    <Container maxWidth="lg">
+      <Grid container spacing={2}>
         {data.allContent.Content.map((show, i) => {
           if (data.allContent.Content.length == i + 1) {
             return (
-              <Box
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
                 key={show.id}
                 ref={lastShowRef}
-                sx={{ backgroundColor: "red", m: 0 }}
               >
-                {show.title}
-              </Box>
+                <ShowCard
+                  resizedUrl={show.photosTout.resizedUrl}
+                  altText={show.photosTout.altText}
+                  title={show.brand.name}
+                  channel={show.channels[0]?.name}
+                  season={show.season.name}
+                  brand={show.brand.name}
+                />
+              </Grid>
             );
           } else {
             return (
-              <Box
-                key={show.id}
-                sx={{ height: 300, backgroundColor: "skyblue", m: 0 }}
-              >
-                {show.title}
-              </Box>
+              <Grid item xs={12} sm={6} md={4} lg={3} key={show.id}>
+                <ShowCard
+                  resizedUrl={show.photosTout.resizedUrl}
+                  altText={show.photosTout.altText}
+                  title={show.brand.name}
+                  channel={show.channels[0]?.name}
+                  season={show.season.name}
+                  brand={show.brand.name}
+                />
+              </Grid>
             );
           }
         })}
-
-        <Button onClick={handleLoadMore}>Load More</Button>
-      </Box>
-    </>
+      </Grid>
+    </Container>
   );
 };
 

@@ -21,23 +21,35 @@ const LatestShow = () => {
 
     return slidesArr.slice(0, 8).map((slide) => (
       <SwiperSlide key={slide.photosTout.url}>
-        <Image
-          src={slide.photosTout.url}
-          alt="runway image"
-          sx={{
-            p: {
-              xs: 0,
-              sm: 1,
+        <Link
+          passHref
+          href={{
+            pathname: "/collection/[slug]",
+            query: {
+              slug: data.allContent.Content[0].slug,
             },
           }}
-        />
+        >
+          <MuiLink>
+            <Image
+              src={slide.photosTout.url}
+              alt="runway image"
+              sx={{
+                p: {
+                  xs: 0,
+                  sm: 1,
+                },
+                cursor: "pointer",
+              }}
+            />
+          </MuiLink>
+        </Link>
       </SwiperSlide>
     ));
   }, [data]);
 
   if (loading) return <p>Loading...</p>;
   if (!data) return null;
-  console.log(data);
   return (
     <>
       <Box
@@ -77,7 +89,7 @@ const LatestShow = () => {
       {slides && (
         <Swiper
           modules={[Pagination, Autoplay]}
-          autoplay={{ delay: 3000 }}
+          autoplay={{ delay: 3300 }}
           slidesPerView={"auto"}
           pagination={{
             clickable: true,
