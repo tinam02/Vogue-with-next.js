@@ -27,20 +27,17 @@ const themeOptions: ThemeOptions = {
     MuiButton: {
       variants: [
         {
-          props: { variant: "new" },
+          props: { variant: "default" },
           style: {
-            color: "white",
-            fontWeight: 700,
-            fontSize: "16px",
-            display: "block",
+            padding: "2px 12px",
+            fontSize: "14px",
+            margin: "0",
             boxShadow: "none",
-            borderRadius: "50px",
-            margin: "27px auto 8px",
-            padding: "12px 43px 10px",
-            backgroundColor: "#FBAE17",
+            fontFamily: "BB",
+            borderRadius: "4px",
             "&:hover": {
               boxShadow: "none",
-              backgroundColor: "#DC9814",
+              outline: "1px solid black",
             },
           },
         },

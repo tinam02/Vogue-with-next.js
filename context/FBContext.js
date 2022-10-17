@@ -6,6 +6,7 @@ import {
   setDoc,
   doc,
   addDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { auth, provider, db } from "../firebase";
 import {
@@ -21,7 +22,6 @@ const FBContextProvider = ({ children }) => {
   const [favArticles, setFavArticles] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -73,13 +73,28 @@ const FBContextProvider = ({ children }) => {
         setFavArticles([]);
         return;
       }
-
-      if (favArticles.some((fav) => fav.url === article.url)) {
-        console.log("vec sacuvano");
-        return;
-      }
       const userRef = doc(db, "users", currentUser.uid);
       const favArticlesRef = collection(userRef, "favorites");
+
+      if (favArticles.some((fav) => fav.id === article.id)) {
+        //find in firebase and delete
+        const docRef = await getDocs(collection(userRef, "favorites"));
+        docRef.forEach((doc) => {
+          if (doc.data().id === article.id) {
+            deleteDoc(doc.ref)
+              .then(() => {
+                setFavArticles((prev) =>
+                  prev.filter((fav) => fav.id !== article.id)
+                );
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        });
+        return;
+      }
+
       await addDoc(favArticlesRef, article);
       setFavArticles((prev) => [...prev, article]);
     },
@@ -107,7 +122,14 @@ const FBContextProvider = ({ children }) => {
 
   return (
     <FBContext.Provider
-      value={{ signIn, logOut, currentUser,loading, addFavArticle, favArticles }}
+      value={{
+        signIn,
+        logOut,
+        currentUser,
+        loading,
+        addFavArticle,
+        favArticles,
+      }}
     >
       {children}
     </FBContext.Provider>

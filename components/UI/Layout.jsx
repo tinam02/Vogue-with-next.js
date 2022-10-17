@@ -4,13 +4,25 @@ import Nav from "./Nav";
 import NavV2 from "./NavV2";
 
 const Layout = ({ children }) => {
+  //max width only on index pag
+  const isMaxWidth = () => {
+    if (typeof window !== "undefined") {
+      if (window.location.pathname !== "/") {
+        return 'lg';
+      }
+    }
+    return false;
+  };
+
   return (
-    <div style={{ marginTop: '70px' }}>
-      {/* <Container disableGutters maxWidth={false} sx={{ mt: 10 }}> */}
-        <NavV2 />
-        {children}
-      {/* </Container> */}
-    </div>
+    <Container
+      disableGutters
+      maxWidth={isMaxWidth()}
+      sx={{ marginTop: { xs: 1, sm: "70px" } }}
+    >
+      <NavV2 />
+      {children}
+    </Container>
   );
 };
 

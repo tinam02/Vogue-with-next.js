@@ -340,6 +340,7 @@ export const GET_LATEST_SHOW = gql`
 export const GET_ARTICLE = gql`
   query articleCopilot($url: String) {
     articleCopilot(url: $url) {
+      id
       title
       promoTitle
       url

@@ -5,9 +5,13 @@ import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import ShowCard from "./ShowCard";
 
 const LatestShows = () => {
-  const { loading, error, data, fetchMore } = useQuery(GET_LATEST_SHOWS, {
-    variables: { after: "" },
-  });
+  const { loading, error, data, fetchMore, networkStatus } = useQuery(
+    GET_LATEST_SHOWS,
+    {
+      variables: { after: "" },
+      notifyOnNetworkStatusChange: true, //ovo vraca loading state (ili network status 3) da se key ne bi ponavljao!! bez ovoga je loading uvek false
+    }
+  );
 
   const handleLoadMore = useCallback(() => {
     if (!data) return;
@@ -48,7 +52,6 @@ const LatestShows = () => {
     [data, handleLoadMore, loading]
   );
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error...</p>;
   if (!data) return null;
   console.log(data);
@@ -75,6 +78,7 @@ const LatestShows = () => {
                   season={show.season.name}
                   brand={show.brand.name}
                 />
+                {show.id}
               </Grid>
             );
           } else {
@@ -87,7 +91,8 @@ const LatestShows = () => {
                   channel={show.channels[0]?.name}
                   season={show.season.name}
                   brand={show.brand.name}
-                />
+                />{" "}
+                {show.id}
               </Grid>
             );
           }

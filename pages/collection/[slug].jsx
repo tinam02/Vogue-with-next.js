@@ -37,7 +37,7 @@ const CollectionPage = () => {
 
   return (
     <Container
-      maxWidth="lg"
+      // maxWidth="lg"
       sx={{
         textAlign: "justify",
         whiteSpace: "pre-wrap",

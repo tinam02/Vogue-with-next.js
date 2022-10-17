@@ -59,7 +59,7 @@ const LatestShow = () => {
           alignItems: "center",
         }}
       >
-        <Typography sx={{ fontWeight: "bold", mb: 1, fontSize: "19px" }}>
+        <Typography sx={{ fontWeight: "bold",  fontSize: "19px" }}>
           LATEST SHOW
         </Typography>
 

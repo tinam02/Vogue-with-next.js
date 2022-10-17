@@ -1,6 +1,6 @@
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
-    new: true;
+    default: true;
   }
 }
 export {};
