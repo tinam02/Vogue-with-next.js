@@ -8,6 +8,7 @@ import { FBContext } from "../../context/FBContext";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import DefaultButton from "./DefaultButton";
 import Link from "next/link";
+import Image from "next/image";
 
 const NavLink = ({ text, href }) => {
   return (
@@ -94,7 +95,7 @@ const Nav = () => {
         >
           <Box
             sx={{
-              fontSize: "25px",
+              fontSize: "21px",
               fontFamily: "BB Condensed",
               display: "flex",
               alignItems: "center",
@@ -109,7 +110,7 @@ const Nav = () => {
                 "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
           >
-            RunwAy
+            raw.edge
           </Box>
 
           <Box
@@ -126,7 +127,7 @@ const Nav = () => {
               }`,
             }}
           >
-            hey
+            <Image src={"/icons/logo.svg"} alt="logo" width={60} height='100%' />
           </Box>
         </Box>
       </Link>
@@ -139,7 +140,7 @@ const Nav = () => {
           fontFamily: "BB",
         }}
       >
-        <NavLink text={'placeh'} href="/" />
+        <NavLink text={"placeh"} href="/" />
 
         {!currentUser && <DefaultButton onClick={signIn} text={"sign in"} />}
         {currentUser && (
