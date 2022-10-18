@@ -30,3 +30,51 @@ export const fashionShowGalleryFields = gql`
     }
   }
 `;
+
+export const articleFields = gql`
+  fragment articleFields on ArticleCopilot {
+    title
+    url
+    slug
+    seoDescription
+    GMTPubDate
+    contributor {
+      photographer {
+        name
+        photosTout {
+          ... on Image {
+            url
+          }
+        }
+      }
+    }
+    body(enableEnhancedLinks: true)
+    bodyEmbeds {
+      ... on Image {
+        url
+      }
+      ... on Gallery {
+        url
+        body
+      }
+      ... on GalleryCopilot {
+        url
+        body
+      }
+    }
+    photosTout {
+      ... on Image {
+        url
+        width
+        height
+        resizedUrl(w: 400)
+        altText
+      }
+    }
+    channel {
+      name
+      slug
+      id
+    }
+  }
+`;

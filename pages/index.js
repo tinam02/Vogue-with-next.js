@@ -2,13 +2,10 @@ import { useContext } from "react";
 import Head from "next/head";
 import { FBContext } from "../context/FBContext";
 import Brands from "../components/Brands/Brands";
-import SeasonRes from "../components/Seasons/Seasons";
-import Article from "../components/Cards/Article";
-import LatestShows from "../components/Cards/LatestShows";
-import LatestShow from "../components/Cards/LatestShow";
+import Article from "../components/Content/Article";
+import LatestShows from "../components/Content/LatestShows";
+import LatestShow from "../components/Content/LatestShow";
 export default function Home() {
-  const { logOut } = useContext(FBContext);
-
   return (
     <>
       <Head>
@@ -19,8 +16,7 @@ export default function Home() {
 
       <main>
         <LatestShow />
-        <Article/>
-        {/* <LatestShows /> */}
+        <LatestShows />
       </main>
     </>
   );

@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 
 import { Button, Grid } from "@mui/material";
 import { useRouter } from "next/router";
-import Article from "../../components/Cards/Article";
+import Article from "../../components/Content/Article";
 import { FBContext } from "../../context/FBContext";
 import ProfileNav from "../../components/UI/ProfileNav";
 
@@ -22,12 +22,13 @@ export default function FavoriteArticles() {
       </Head>
 
       <main>
-        <ProfileNav  />
+        <ProfileNav />
         <Grid container spacing={3}>
           {favArticles.map((article, i) => {
+            console.log(article);
             return (
-              <Grid item key={article.url} xs={12} md={6} xl={3}>
-                <Article url={article.url} isFavorite={true} />
+              <Grid item key={article.slug} sm={12} md={6} xl={3}>
+                <Article slug={article.slug} isFavorite={true} />
               </Grid>
             );
           })}

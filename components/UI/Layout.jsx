@@ -1,23 +1,12 @@
-import React from "react";
+import { useCallback } from "react";
 import { Container } from "@mui/material";
-import Nav from "./Nav";
-import NavV2 from "./NavV2";
+import NavV2 from "./Nav";
 
-const Layout = ({ children }) => {
-  //max width only on index pag
-  const isMaxWidth = () => {
-    if (typeof window !== "undefined") {
-      if (window.location.pathname !== "/") {
-        return 'lg';
-      }
-    }
-    return false;
-  };
-
+const Layout = ({ children, maxWidth = false }) => {
   return (
     <Container
       disableGutters
-      maxWidth={isMaxWidth()}
+      maxWidth={maxWidth}
       sx={{ marginTop: { xs: 1, sm: "70px" } }}
     >
       <NavV2 />

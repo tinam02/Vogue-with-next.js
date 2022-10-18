@@ -1,5 +1,9 @@
 import { gql } from "@apollo/client";
-import { personFields, fashionShowGalleryFields } from "./fragments";
+import {
+  personFields,
+  fashionShowGalleryFields,
+  articleFields,
+} from "./fragments";
 
 export const GET_SEASONS = gql`
   query allSeasons($searchTerm: String) {
@@ -96,6 +100,7 @@ export const GET_REVIEW_IMAGES = gql`
             photosTout {
               ... on Image {
                 url
+                resizedUrl(w: 100)
               }
             }
           }
@@ -193,17 +198,23 @@ export const GET_BRAND = gql`
 `;
 
 export const GET_CONTENT = gql`
-  {
+  query allContent($after: String) {
     allContent(
-      first: 30
+      first: 12
+      after: $after
       filter: { channel: { slug: "fashion" } }
       hierarchy: null
-      type: ["ArticleCopilot", "GalleryCopilot", "FashionShowV2"]
+      type: ["ArticleCopilot"]
       exclude: {
         categories: [{ hierarchy: "functional-tags/noriver" }]
         contentFlags: { hideFromFeed: true }
       }
     ) {
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
       Content {
         id
         url
@@ -226,7 +237,44 @@ export const GET_CONTENT = gql`
       }
     }
   }
-`; //content in channel
+`;
+
+export const GET_ARTICLES = gql`
+  ${articleFields}
+  query allContent($after: String) {
+    allContent(
+      first: 10
+      after: $after
+      filter: { channel: { slug: "fashion" } }
+      hierarchy: null
+      type: ["ArticleCopilot"]
+      exclude: {
+        categories: [{ hierarchy: "functional-tags/noriver" }]
+        contentFlags: { hideFromFeed: true }
+      }
+    ) {
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
+      Content {
+        ... on ArticleCopilot {
+          ...articleFields
+        }
+      }
+    }
+  }
+`;
+
+export const GET_ARTICLE = gql`
+  ${articleFields}
+  query articleCopilot($slug: String) {
+    articleCopilot(slug: $slug) {
+      ...articleFields
+    }
+  }
+`;
 
 export const GET_LATEST_SHOWS = gql`
   query allContent($after: String) {
@@ -336,72 +384,3 @@ export const GET_LATEST_SHOW = gql`
     }
   }
 `;
-
-export const GET_ARTICLE = gql`
-  query articleCopilot($url: String) {
-    articleCopilot(url: $url) {
-      id
-      title
-      promoTitle
-      url
-      contributor {
-        photographer {
-          name
-          photosTout {
-            ... on Image {
-              url
-            }
-          }
-        }
-      }
-      body(enableEnhancedLinks: true)
-      bodyEmbeds {
-        ... on Image {
-          url
-        }
-        ... on Gallery {
-          url
-          body
-        }
-        ... on GalleryCopilot {
-          url
-          body
-        }
-      }
-      photosTout {
-        ... on Image {
-          url
-          width
-          height
-          resizedUrl(w: 400)
-          altText
-        }
-      }
-      channel {
-        name
-        slug
-        id
-      }
-    }
-  }
-`; //link to article and image
-//https://www.vogue.com/graphiql
-// {
-//   article(id: "Q29udGVudDoxMzQzOTMwMw==") {
-//     ...contentFields
-
-//   }
-// }
-
-// fragment contentFields on Content {
-//   id,
-
-//   slug,
-//   title,
-//   dek,
-//   pubDate,
-//   url,
-//   feedcardRepresentation,
-//   body,
-
-// }

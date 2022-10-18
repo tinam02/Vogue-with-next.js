@@ -32,7 +32,11 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #000000 #ffffff;
 }
-
+/* modify selection color */
+::selection {
+  background-color: #000000;
+  color: #ffffff;
+}
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
   scrollbar-width: thin;
@@ -48,7 +52,7 @@ body {
 
 *::-webkit-scrollbar-thumb {
   background-color: #fff;
-  border:1px solid #000000;
+  border: 1px solid #000000;
 }
 /* 
 @media (prefers-color-scheme: dark) {

@@ -2,7 +2,7 @@ import { useCallback, useRef } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_LATEST_SHOWS } from "../../queries";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import ShowCard from "./ShowCard";
+import ShowCard from "../UI/ShowCard";
 
 const LatestShows = () => {
   const { loading, error, data, fetchMore, networkStatus } = useQuery(

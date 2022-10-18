@@ -2,12 +2,13 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import { GET_REVIEW_IMAGES } from "../../queries";
-import { Box, Grid, Container } from "@mui/material";
+import { Box, Avatar, Grid, Container, Typography } from "@mui/material";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Image from "mui-image";
 
 import "yet-another-react-lightbox/styles.css";
+import AuthorCard from "../../components/UI/AuthorCard";
 
 const CollectionPage = () => {
   const [openImgIdx, setOpenImgIdx] = useState(-1);
@@ -34,7 +35,7 @@ const CollectionPage = () => {
     src: slide.photosTout.url,
     alt: slide.photosTout.altText,
   }));
-
+  console.log(brand);
   return (
     <Container
       // maxWidth="lg"
@@ -43,8 +44,17 @@ const CollectionPage = () => {
         whiteSpace: "pre-wrap",
       }}
     >
-      {brand.name} {channel.name} {city.name} {season.name}
-      {body} {contributor.author[0].name}
+  
+        {brand.name} {channel?.name || "review"} {city.name} {season.name}
+        {body}
+      
+        {contributor && (
+          <AuthorCard
+            name={contributor.author[0]?.name}
+            avatar={contributor.author[0]?.photosTout?.resizedUrl}
+          />
+        )}{" "}
+    
       <Grid container spacing={2}>
         {collection.slidesV2.slide.map((slide, idx) => (
           <Grid item xs={12} sm={6} md={3} key={idx}>

@@ -76,15 +76,15 @@ const FBContextProvider = ({ children }) => {
       const userRef = doc(db, "users", currentUser.uid);
       const favArticlesRef = collection(userRef, "favorites");
 
-      if (favArticles.some((fav) => fav.id === article.id)) {
+      if (favArticles.some((fav) => fav.slug === article.slug)) {
         //find in firebase and delete
         const docRef = await getDocs(collection(userRef, "favorites"));
         docRef.forEach((doc) => {
-          if (doc.data().id === article.id) {
+          if (doc.data().slug === article.slug) {
             deleteDoc(doc.ref)
               .then(() => {
                 setFavArticles((prev) =>
-                  prev.filter((fav) => fav.id !== article.id)
+                  prev.filter((fav) => fav.slug !== article.slug)
                 );
               })
               .catch((error) => {
