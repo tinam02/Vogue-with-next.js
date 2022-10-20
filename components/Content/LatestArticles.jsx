@@ -9,7 +9,7 @@ import { FBContext } from "../../context/FBContext";
 
 const LatestArticles = () => {
   const { favArticles, addFavArticle } = useContext(FBContext);
-  const { loading, error, data, fetchMore, networkStatus } = useQuery(
+  const { loading, error, data, fetchMore } = useQuery(
     GET_ARTICLES,
     {
       variables: {
@@ -26,7 +26,7 @@ const LatestArticles = () => {
     [favArticles]
   );
 
-  const addFave = async(article) => {
+  const addFave = async (article) => {
     if (!data) return;
     await addFavArticle(article);
   };
@@ -133,42 +133,3 @@ const LatestArticles = () => {
 };
 
 export default LatestArticles;
-{
-  /* <>
-<Grid container spacing={3}>
-  {data.allContent.Content.map((article, i) => {
-    if (data.allContent.Content.length == i + 1) {
-      return (
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          key={article.url}
-          ref={lastArticleRef}
-        ></Grid>
-      );
-    } else {
-      return (
-        <Grid item md={4} key={article.url}>
-          <Box sx={{ textAlign: "center" }}>
-            <Image src={article.photosTout.url} alt={"img"} />
-
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Typography variant="body2" color="text.primary">
-                {article.channel.name.toUpperCase()} /&nbsp;
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                pub
-              </Typography>
-            </Box>
-            <Typography sx={{ fontWeight: "bold", fontSize: "large" }}>
-              asd
-            </Typography>
-          </Box>
-        </Grid>
-      );
-    }
-  })}
-</Grid>
-</> */
-}

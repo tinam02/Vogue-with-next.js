@@ -1,18 +1,18 @@
 import { useCallback, useRef } from "react";
+import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
-import { GET_LATEST_SHOWS } from "../../queries";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import ShowCard from "../UI/ShowCard";
 import Link from "next/link";
+import { GET_SEASON_SHOWS } from "../../queries";
+import ShowCard from "../../components/UI/ShowCard";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 
-const LatestShows = () => {
-  const { loading, error, data, fetchMore, networkStatus } = useQuery(
-    GET_LATEST_SHOWS,
-    {
-      variables: { after: "" },
-      notifyOnNetworkStatusChange: true, //ovo vraca loading state (ili network status 3) da se key ne bi ponavljao!! bez ovoga je loading uvek false
-    }
-  );
+const SeasonPage = () => {
+  const router = useRouter();
+  const { slug } = router.query;
+  const { loading, error, data, fetchMore } = useQuery(GET_SEASON_SHOWS, {
+    variables: { after: "", filter: { season: { slug: slug } } },
+    notifyOnNetworkStatusChange: true,
+  });
 
   const handleLoadMore = useCallback(() => {
     if (!data) return;
@@ -36,7 +36,6 @@ const LatestShows = () => {
     });
   }, [data, fetchMore]);
 
-  //inf scroll
   const observer = useRef(null);
   const lastShowRef = useCallback(
     (node) => {
@@ -57,7 +56,15 @@ const LatestShows = () => {
   if (!data) return null;
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={2}>
+      <Typography
+        sx={{
+          textAlign: "center",
+          fontFamily: "BB",
+        }}
+      >
+        &#65103;{slug}&#65103;
+      </Typography>
+      <Grid container spacing={2} sx={{ my: 0 }}>
         {data.allContent.Content.map((show, i) => {
           if (data.allContent.Content.length == i + 1) {
             return (
@@ -112,4 +119,4 @@ const LatestShows = () => {
   );
 };
 
-export default LatestShows;
+export default SeasonPage;

@@ -3,6 +3,7 @@ import Image from "mui-image";
 import React from "react";
 
 const ShowCard = ({
+  slug,
   url,
   resizedUrl,
   altText,
@@ -12,7 +13,11 @@ const ShowCard = ({
   brand,
 }) => {
   return (
-    <Box>
+    <Box
+      sx={{
+        cursor: "pointer",
+      }}
+    >
       <Image src={resizedUrl} alt={altText} />
 
       <Box sx={{ textAlign: "center" }}>
@@ -24,9 +29,11 @@ const ShowCard = ({
             {season}
           </Typography>
         </Box>
-        <Typography sx={{ fontWeight: "bold", fontSize: "large" }}>
-          {brand}
-        </Typography>
+        {brand && (
+          <Typography sx={{ fontWeight: "bold", fontSize: "large" }}>
+            {brand}
+          </Typography>
+        )}
       </Box>
     </Box>
   );

@@ -82,16 +82,16 @@ export const GET_REVIEW_IMAGES = gql`
       brand {
         id
         name
+        slug
         designers {
           name
         }
       }
       season {
-        id
+        slug
         name
       }
       review {
-        id
         title
         body
         contributor {
@@ -285,6 +285,7 @@ export const GET_LATEST_SHOWS = gql`
         endCursor
       }
       Content {
+        slug
         title
         ... on FashionShowV2 {
           id
@@ -379,6 +380,126 @@ export const GET_LATEST_SHOW = gql`
               }
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_SEASON_SHOWS = gql`
+  query allContent($after: String, $filter: ContentFilter) {
+    allContent(
+      first: 12
+      after: $after
+      type: ["FashionShowV2"]
+      filter: $filter
+    ) {
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
+      Content {
+        slug
+        title
+        ... on FashionShowV2 {
+          id
+          url
+          season {
+            slug
+            name
+            major
+          }
+          brand {
+            id
+            slug
+            name
+          }
+        }
+        photosTout {
+          ... on Image {
+            url
+            resizedUrl(w: 500)
+          }
+        }
+        GMTPubDate
+        url
+        tags {
+          name
+        }
+        channels {
+          slug
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const GET_BRAND_SHOWS = gql`
+  query allContent($after: String, $filter: ContentFilter) {
+    allContent(
+      first: 12
+      after: $after
+      type: ["FashionShowV2"]
+      filter: $filter
+    ) {
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
+      Content {
+        slug
+        title
+        ... on FashionShowV2 {
+          id
+          url
+          season {
+            id
+            slug
+            name
+            major
+          }
+          brand {
+            id
+            description
+            previousDesigners {
+              name
+              title
+              startYear
+              endYear
+              roles
+            }
+            designers {
+              name
+              title
+              endYear
+              startYear
+              socialMediaHandles {
+                instagram
+                pinterest
+                twitter
+              }
+              roles
+            }
+            name
+          }
+        }
+        photosTout {
+          ... on Image {
+            url
+            resizedUrl(w: 500)
+          }
+        }
+        GMTPubDate
+        url
+        tags {
+          name
+        }
+        channels {
+          slug
+          name
         }
       }
     }

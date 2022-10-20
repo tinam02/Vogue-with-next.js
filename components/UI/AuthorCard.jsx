@@ -15,7 +15,7 @@ const AuthorCard = ({ name, avatar }) => {
         sx={{
           width: 50,
           height: 50,
-          filter: "grayscale(90%)",
+          filter: "grayscale(40%)",
           transition: "filter 0.2s ease-in-out",
           "&:hover": {
             filter: "none",

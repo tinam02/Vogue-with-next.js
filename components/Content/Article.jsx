@@ -18,7 +18,7 @@ const Article = ({
     if (!data) return;
     addFavArticle(data.articleCopilot);
   };
-  console.log(data);
+
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;

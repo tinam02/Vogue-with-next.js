@@ -67,7 +67,7 @@ export const articleFields = gql`
         url
         width
         height
-        resizedUrl(w: 400)
+        resizedUrl(w: 600)
         altText
       }
     }

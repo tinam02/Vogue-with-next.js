@@ -140,7 +140,7 @@ const Nav = () => {
           fontFamily: "BB",
         }}
       >
-        <NavLink text={"placeh"} href="/" />
+        {/* <NavLink text={"placeh"} href="/" /> */}
 
         {!currentUser && <DefaultButton onClick={signIn} text={"sign in"} />}
         {currentUser && (

@@ -3,9 +3,9 @@ import LatestArticles from '../../components/Content/LatestArticles'
 
 const Articles = () => {
   return (
-    <div>
+    <>
         <LatestArticles/>
-    </div>
+    </>
   )
 }
 

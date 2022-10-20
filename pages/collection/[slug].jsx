@@ -2,10 +2,19 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import { GET_REVIEW_IMAGES } from "../../queries";
-import { Box, Avatar, Grid, Container, Typography } from "@mui/material";
+import {
+  Box,
+  Avatar,
+  Grid,
+  Container,
+  Typography,
+  Link as MuiLink,
+} from "@mui/material";
+import Link from "next/link";
+import Image from "mui-image";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import Image from "mui-image";
+import ReactMarkdown from "react-markdown";
 
 import "yet-another-react-lightbox/styles.css";
 import AuthorCard from "../../components/UI/AuthorCard";
@@ -38,23 +47,56 @@ const CollectionPage = () => {
   console.log(brand);
   return (
     <Container
-      // maxWidth="lg"
       sx={{
         textAlign: "justify",
         whiteSpace: "pre-wrap",
       }}
     >
-  
-        {brand.name} {channel?.name || "review"} {city.name} {season.name}
-        {body}
-      
+      <Box sx={{ fontFamily: "BB", display: "flex", gap: 2, fontSize: "14px" }}>
+        <Link
+          passHref
+          href={{
+            pathname: "/season/[slug]",
+            query: {
+              slug: season.slug,
+            },
+          }}
+        >
+          <MuiLink underline="hover" sx={{ color: "text.secondary" }}>
+            / {season.name.toLowerCase()}
+          </MuiLink>
+        </Link>
+        <Link
+          passHref
+          href={{
+            pathname: "/brand/[slug]",
+            query: {
+              slug: brand.slug,
+            },
+          }}
+        >
+          <MuiLink underline="hover" sx={{ color: "text.secondary" }}>
+            / {brand.name.toLowerCase()}
+          </MuiLink>
+        </Link>
+      </Box>
+      {brand.name} {channel?.name || "review"} {city?.name}
+      <ReactMarkdown>{body}</ReactMarkdown>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          mb: 3,
+          mt: 2,
+        }}
+      >
         {contributor && (
           <AuthorCard
             name={contributor.author[0]?.name}
             avatar={contributor.author[0]?.photosTout?.resizedUrl}
           />
-        )}{" "}
-    
+        )}
+      </Box>
       <Grid container spacing={2}>
         {collection.slidesV2.slide.map((slide, idx) => (
           <Grid item xs={12} sm={6} md={3} key={idx}>

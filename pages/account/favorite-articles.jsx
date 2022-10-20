@@ -25,7 +25,6 @@ export default function FavoriteArticles() {
         <ProfileNav />
         <Grid container spacing={3}>
           {favArticles.map((article, i) => {
-            console.log(article);
             return (
               <Grid item key={article.slug} sm={12} md={6} xl={3}>
                 <Article slug={article.slug} isFavorite={true} />

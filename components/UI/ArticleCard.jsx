@@ -2,6 +2,7 @@ import React from "react";
 import { Box, ButtonBase, Container, Grid, Typography } from "@mui/material";
 import Image from "mui-image";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 
 const ArticleCard = ({ article, isFave = false, onFave }) => {
   const pubDate = new Date(article.GMTPubDate).toLocaleDateString("en-US", {
@@ -19,7 +20,7 @@ const ArticleCard = ({ article, isFave = false, onFave }) => {
         alignItems: "center",
       }}
     >
-      <Image src={article.photosTout.url} alt={"img"} />
+      <Image src={article.photosTout.resizedUrl} alt={"img"} />
 
       <Box
         sx={{
@@ -54,14 +55,27 @@ const ArticleCard = ({ article, isFave = false, onFave }) => {
             )}
           </ButtonBase>
         </Box>
-
-        <Link href="/">
-          <Typography
-            variant="body2"
-            sx={{ fontWeight: "bold", fontSize: "large" ,'&:hover': { cursor: 'pointer' ,textDecoration: 'underline' }}}
-          >
-            {article.title}
-          </Typography>
+        <Link passHref href="/">
+          <Box>
+            <ReactMarkdown
+              components={{
+                p: ({ node, ...props }) => (
+                  <Typography
+                    {...props}
+                    sx={{
+                      fontSize: "large",
+                      "&:hover": {
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      },
+                    }}
+                  />
+                ),
+              }}
+            >
+              {article.title}
+            </ReactMarkdown>{" "}
+          </Box>
         </Link>
       </Box>
     </Box>
