@@ -1,15 +1,16 @@
 import { useCallback, useContext, useRef } from "react";
 import { useQuery } from "@apollo/client";
-import { GET_ARTICLES, GET_CONTENT } from "../../queries";
-import { Box, Button, Container, Divider, Typography } from "@mui/material";
-import Image from "mui-image";
+import { GET_ARTICLES } from "../../queries";
+import { Box, Container, Typography } from "@mui/material";
 import Masonry from "@mui/lab/Masonry";
 import ArticleCard from "../UI/ArticleCard";
 import { FBContext } from "../../context/FBContext";
+import Link from "next/link";
+import Spinner from "../UI/Spinner";
 
 const LatestArticles = () => {
   const { favArticles, addFavArticle } = useContext(FBContext);
-  const { loading, error, data, fetchMore } = useQuery(
+  const { loading, error, data, fetchMore, networkStatus } = useQuery(
     GET_ARTICLES,
     {
       variables: {
@@ -18,7 +19,7 @@ const LatestArticles = () => {
       notifyOnNetworkStatusChange: true,
     }
   );
-
+  console.log(networkStatus);
   const articleIsFavorite = useCallback(
     (article) => {
       return favArticles.some((favArticle) => favArticle.slug === article.slug);
@@ -69,9 +70,9 @@ const LatestArticles = () => {
     [data, handleLoadMore, loading]
   );
 
+  if (networkStatus === 1) return <Spinner />;
   if (error) return <p>Error...</p>;
   if (!data) return null;
-  console.log(data);
   return (
     <>
       <Box
@@ -106,28 +107,50 @@ const LatestArticles = () => {
           {data.allContent.Content.map((article, i) => {
             if (data.allContent.Content.length == i + 1) {
               return (
-                <Box ref={lastArticleRef} key={article.url}>
-                  <ArticleCard
-                    article={article}
-                    isFave={articleIsFavorite(article)}
-                    onFave={() => addFave(article)}
-                  />
-                </Box>
+                <Link
+                  passHref
+                  key={article.url}
+                  href={{
+                    pathname: "/articles/[slug]",
+                    query: {
+                      slug: article.slug,
+                    },
+                  }}
+                >
+                  <Box ref={lastArticleRef}>
+                    <ArticleCard
+                      article={article}
+                      isFave={articleIsFavorite(article)}
+                      onFave={() => addFave(article)}
+                    />{" "}
+                  </Box>
+                </Link>
               );
             } else {
               return (
-                <Box key={article.url}>
-                  <ArticleCard
-                    article={article}
-                    isFave={articleIsFavorite(article)}
-                    onFave={() => addFave(article)}
-                  />
-                </Box>
+                <Link
+                  key={article.url}
+                  href={{
+                    pathname: "/articles/[slug]",
+                    query: {
+                      slug: article.slug,
+                    },
+                  }}
+                >
+                  <Box>
+                    <ArticleCard
+                      article={article}
+                      isFave={articleIsFavorite(article)}
+                      onFave={() => addFave(article)}
+                    />
+                  </Box>
+                </Link>
               );
             }
           })}
         </Masonry>
       </Container>
+      {networkStatus === 3 && <Spinner />}
     </>
   );
 };

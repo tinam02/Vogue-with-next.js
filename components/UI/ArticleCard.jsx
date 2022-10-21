@@ -3,13 +3,9 @@ import { Box, ButtonBase, Container, Grid, Typography } from "@mui/material";
 import Image from "mui-image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import convertDate from "../../services/convertDate";
 
 const ArticleCard = ({ article, isFave = false, onFave }) => {
-  const pubDate = new Date(article.GMTPubDate).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
   return (
     <Box
       sx={{
@@ -40,7 +36,7 @@ const ArticleCard = ({ article, isFave = false, onFave }) => {
               {article.channel?.name?.toUpperCase() || "ARTICLE"} /&nbsp;
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {pubDate}
+              {convertDate(article.GMTPubDate)}
             </Typography>
           </Box>
           <ButtonBase onClick={onFave} sx={{ p: 0, m: 0 }} disableRipple>
@@ -55,28 +51,27 @@ const ArticleCard = ({ article, isFave = false, onFave }) => {
             )}
           </ButtonBase>
         </Box>
-        <Link passHref href="/">
-          <Box>
-            <ReactMarkdown
-              components={{
-                p: ({ node, ...props }) => (
-                  <Typography
-                    {...props}
-                    sx={{
-                      fontSize: "large",
-                      "&:hover": {
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                      },
-                    }}
-                  />
-                ),
-              }}
-            >
-              {article.title}
-            </ReactMarkdown>{" "}
-          </Box>
-        </Link>
+
+        <Box>
+          <ReactMarkdown
+            components={{
+              p: ({ node, ...props }) => (
+                <Typography
+                  {...props}
+                  sx={{
+                    fontSize: "large",
+                    "&:hover": {
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                    },
+                  }}
+                />
+              ),
+            }}
+          >
+            {article.title}
+          </ReactMarkdown>
+        </Box>
       </Box>
     </Box>
   );

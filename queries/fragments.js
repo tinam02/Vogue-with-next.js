@@ -23,6 +23,7 @@ export const fashionShowGalleryFields = gql`
           photosTout {
             ... on Image {
               url
+              resizedUrl(w: 300)
             }
           }
         }
@@ -72,6 +73,11 @@ export const articleFields = gql`
       }
     }
     channel {
+      name
+      slug
+      id
+    }
+    channels {
       name
       slug
       id

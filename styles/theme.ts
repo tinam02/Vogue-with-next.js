@@ -4,23 +4,13 @@ const themeOptions: ThemeOptions = {
   typography: {
     fontFamily: ["BB Condensed", "BB", "Roboto", "Times New Roman"].join(","),
   },
-
   palette: {
     mode: "light",
     primary: {
       main: "#202127",
     },
-    secondary: {
-      main: "#FBAE17",
-    },
-    info: {
-      main: "#0084FF",
-    },
-    success: {
-      main: "#2CB742",
-    },
-    warning: {
-      main: "#FB5B17",
+    text: {
+      secondary: "rgba(0, 0, 0, 0.50)",
     },
   },
   components: {

@@ -73,7 +73,12 @@ const SeasonPage = () => {
   if (!data) return null;
   console.log(data.allContent.Content[0]?.brand);
   return (
-    <Container maxWidth="lg">
+    <Container
+      maxWidth="lg"
+      sx={{
+        mb: 2,
+      }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -118,7 +123,10 @@ const SeasonPage = () => {
                 gap: 1,
               }}
             >
-              <Typography variant="body2" sx={{ opacity: "0.5", pt: "2px" }}>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary", pt: "2px" }}
+              >
                 DESIGNERS:&nbsp;
               </Typography>
               {data.allContent.Content[0].brand.designers.map((designer) => (
@@ -171,7 +179,7 @@ const SeasonPage = () => {
                 gap: 1,
               }}
             >
-              <Typography variant="body2" sx={{ opacity: "0.5", pt: "2px" }}>
+              <Typography variant="body2" sx={{ color: "text.secondary", pt: "2px" }}>
                 PREVIOUS DESIGNERS:&nbsp;
               </Typography>
               <Box>

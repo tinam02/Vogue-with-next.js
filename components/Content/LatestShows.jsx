@@ -4,6 +4,7 @@ import { GET_LATEST_SHOWS } from "../../queries";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import ShowCard from "../UI/ShowCard";
 import Link from "next/link";
+import Spinner from "../UI/Spinner";
 
 const LatestShows = () => {
   const { loading, error, data, fetchMore, networkStatus } = useQuery(
@@ -53,10 +54,11 @@ const LatestShows = () => {
     [data, handleLoadMore, loading]
   );
 
+  if (networkStatus === 1) return <Spinner />;
   if (error) return <p>Error...</p>;
   if (!data) return null;
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ mb: 2 }}>
       <Grid container spacing={2}>
         {data.allContent.Content.map((show, i) => {
           if (data.allContent.Content.length == i + 1) {
@@ -108,6 +110,7 @@ const LatestShows = () => {
           }
         })}
       </Grid>
+      {networkStatus === 3 && <Spinner />}
     </Container>
   );
 };

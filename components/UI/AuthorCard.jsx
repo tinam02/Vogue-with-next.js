@@ -32,7 +32,7 @@ const AuthorCard = ({ name, avatar }) => {
           sx={{
             fontFamily: "BB",
             fontSize: "12px",
-            opacity: 0.7,
+            color: "text.secondary" 
           }}
         >
           AUTHOR /

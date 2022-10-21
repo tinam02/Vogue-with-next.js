@@ -1,9 +1,7 @@
 import { useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-// import MenuItem from "@mui/material/MenuItem";
-// import Menu from "@mui/material/Menu";
+import { Link as MuiLink } from "@mui/material";
 import { FBContext } from "../../context/FBContext";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import DefaultButton from "./DefaultButton";
@@ -13,8 +11,8 @@ import Image from "next/image";
 const NavLink = ({ text, href }) => {
   return (
     <Link passHref href={href}>
-      <Typography
-        component="div"
+      <MuiLink
+        underline="none"
         sx={{
           fontFamily: "BB",
           fontSize: "14px",
@@ -26,7 +24,7 @@ const NavLink = ({ text, href }) => {
         }}
       >
         {text}
-      </Typography>
+      </MuiLink>
     </Link>
   );
 };
@@ -127,7 +125,12 @@ const Nav = () => {
               }`,
             }}
           >
-            <Image src={"/icons/logo.svg"} alt="logo" width={60} height='100%' />
+            <Image
+              src={"/icons/logo.svg"}
+              alt="logo"
+              width={60}
+              height="100%"
+            />
           </Box>
         </Box>
       </Link>
