@@ -107,44 +107,23 @@ const LatestArticles = () => {
           {data.allContent.Content.map((article, i) => {
             if (data.allContent.Content.length == i + 1) {
               return (
-                <Link
-                  passHref
-                  key={article.url}
-                  href={{
-                    pathname: "/articles/[slug]",
-                    query: {
-                      slug: article.slug,
-                    },
-                  }}
-                >
-                  <Box ref={lastArticleRef}>
-                    <ArticleCard
-                      article={article}
-                      isFave={articleIsFavorite(article)}
-                      onFave={() => addFave(article)}
-                    />{" "}
-                  </Box>
-                </Link>
+                <Box key={article.url} ref={lastArticleRef}>
+                  <ArticleCard
+                    article={article}
+                    isFave={articleIsFavorite(article)}
+                    onFave={() => addFave(article)}
+                  />
+                </Box>
               );
             } else {
               return (
-                <Link
-                  key={article.url}
-                  href={{
-                    pathname: "/articles/[slug]",
-                    query: {
-                      slug: article.slug,
-                    },
-                  }}
-                >
-                  <Box>
-                    <ArticleCard
-                      article={article}
-                      isFave={articleIsFavorite(article)}
-                      onFave={() => addFave(article)}
-                    />
-                  </Box>
-                </Link>
+                <Box key={article.url}>
+                  <ArticleCard
+                    article={article}
+                    isFave={articleIsFavorite(article)}
+                    onFave={() => addFave(article)}
+                  />
+                </Box>
               );
             }
           })}

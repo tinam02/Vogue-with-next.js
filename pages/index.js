@@ -5,6 +5,7 @@ import Brands from "../components/Brands/Brands";
 import Article from "../components/Content/Article";
 import LatestShows from "../components/Content/LatestShows";
 import LatestShow from "../components/Content/LatestShow";
+import { ColorModeContext } from "../context/themeContext";
 export default function Home() {
   return (
     <>

@@ -1,19 +1,24 @@
 import Head from "next/head";
 import { useContext, useEffect } from "react";
-
-import { Button, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { useRouter } from "next/router";
-import Article from "../../components/Content/Article";
 import { FBContext } from "../../context/FBContext";
 import ProfileNav from "../../components/UI/ProfileNav";
+import ArticleCard from "../../components/UI/ArticleCard";
 
 export default function FavoriteArticles() {
-  const { favArticles, currentUser, loading } = useContext(FBContext);
+  const { favArticles, currentUser, loading, addFavArticle } =
+    useContext(FBContext);
   const router = useRouter();
 
   useEffect(() => {
     if (!(currentUser || loading)) router.push("/");
   }, [currentUser, router, loading]);
+
+  const addFave = async (article) => {
+    if (!article) return;
+    await addFavArticle(article);
+  };
 
   return (
     <div>
@@ -27,7 +32,11 @@ export default function FavoriteArticles() {
           {favArticles.map((article, i) => {
             return (
               <Grid item key={article.slug} sm={12} md={6} xl={3}>
-                <Article slug={article.slug} isFavorite={true} />
+                <ArticleCard
+                  article={article}
+                  isFave={true}
+                  onFave={() => addFave(article)}
+                />
               </Grid>
             );
           })}

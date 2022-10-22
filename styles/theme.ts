@@ -1,17 +1,8 @@
 import { ThemeOptions } from "@mui/material/styles";
 
-const themeOptions: ThemeOptions = {
+const baseTheme: ThemeOptions = {
   typography: {
     fontFamily: ["BB Condensed", "BB", "Roboto", "Times New Roman"].join(","),
-  },
-  palette: {
-    mode: "light",
-    primary: {
-      main: "#202127",
-    },
-    text: {
-      secondary: "rgba(0, 0, 0, 0.50)",
-    },
   },
   components: {
     MuiButton: {
@@ -27,7 +18,8 @@ const themeOptions: ThemeOptions = {
             borderRadius: "4px",
             "&:hover": {
               boxShadow: "none",
-              outline: "1px solid black",
+              outline: "1px solid",
+              outlineColor: "text.primary",
             },
           },
         },
@@ -36,4 +28,38 @@ const themeOptions: ThemeOptions = {
   },
 };
 
-export default themeOptions;
+const darkPalette = {
+  primary: {
+    main: "#f5f5f5",
+  },
+  secondary: {
+    main: "#f5f5f5",
+  },
+  text: {
+    primary: "#fff",
+    secondary: "rgba(255, 255, 255, 0.7)",
+  },
+  background: {
+    default: "#000",
+    paper: "#000",
+  },
+};
+
+const lightPalette = {
+  primary: {
+    main: "#000",
+  },
+  secondary: {
+    main: "#000",
+  },
+  text: {
+    primary: "#000",
+    secondary: "rgba(0, 0, 0, 0.50)",
+  },
+  background: {
+    default: "#fff",
+    paper: "#fff",
+  },
+};
+
+export { baseTheme, darkPalette, lightPalette };

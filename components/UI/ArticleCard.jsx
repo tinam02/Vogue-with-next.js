@@ -1,9 +1,10 @@
 import React from "react";
-import { Box, ButtonBase, Container, Grid, Typography } from "@mui/material";
+import { Box, ButtonBase,  Typography } from "@mui/material";
 import Image from "mui-image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import convertDate from "../../services/convertDate";
+import { BookmarkBlank, BookmarkFilled } from "./Icons/Bookmark";
 
 const ArticleCard = ({ article, isFave = false, onFave }) => {
   return (
@@ -40,38 +41,39 @@ const ArticleCard = ({ article, isFave = false, onFave }) => {
             </Typography>
           </Box>
           <ButtonBase onClick={onFave} sx={{ p: 0, m: 0 }} disableRipple>
-            {isFave ? (
-              <Image
-                src="/bookmarkFilled.svg"
-                alt="bookmark-filled"
-                width={24}
-              />
-            ) : (
-              <Image src="/bookmarkBlank.svg" alt="bookmark-blank" width={24} />
-            )}
+            {isFave ? <BookmarkFilled /> : <BookmarkBlank />}
           </ButtonBase>
         </Box>
-
-        <Box>
-          <ReactMarkdown
-            components={{
-              p: ({ node, ...props }) => (
-                <Typography
-                  {...props}
-                  sx={{
-                    fontSize: "large",
-                    "&:hover": {
-                      cursor: "pointer",
-                      textDecoration: "underline",
-                    },
-                  }}
-                />
-              ),
-            }}
-          >
-            {article.title}
-          </ReactMarkdown>
-        </Box>
+        <Link
+          passHref
+          href={{
+            pathname: "/articles/[slug]",
+            query: {
+              slug: article.slug,
+            },
+          }}
+        >
+          <Box>
+            <ReactMarkdown
+              components={{
+                p: ({ node, ...props }) => (
+                  <Typography
+                    {...props}
+                    sx={{
+                      fontSize: "large",
+                      "&:hover": {
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      },
+                    }}
+                  />
+                ),
+              }}
+            >
+              {article.title}
+            </ReactMarkdown>
+          </Box>
+        </Link>
       </Box>
     </Box>
   );

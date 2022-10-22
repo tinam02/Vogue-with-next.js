@@ -20,6 +20,10 @@ import Image from "mui-image";
 import { FBContext } from "../../context/FBContext";
 import convertDate from "../../services/convertDate";
 import Spinner from "../../components/UI/Spinner";
+import {
+  BookmarkBlank,
+  BookmarkFilled,
+} from "../../components/UI/Icons/Bookmark";
 
 const ArticlePage = () => {
   const router = useRouter();
@@ -118,9 +122,9 @@ const ArticlePage = () => {
           disableRipple
         >
           {articleIsFavorite(data.articleCopilot) ? (
-            <Image src="/bookmarkFilled.svg" alt="bookmark-filled" width={34} />
+            <BookmarkFilled fontSize={34} />
           ) : (
-            <Image src="/bookmarkBlank.svg" alt="bookmark-blank" width={34} />
+            <BookmarkBlank fontSize={34} />
           )}
         </ButtonBase>
       </Box>

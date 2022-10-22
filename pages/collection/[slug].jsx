@@ -52,6 +52,7 @@ const CollectionPage = () => {
     src: slide.photosTout.url,
     alt: slide.photosTout.altText,
   }));
+  console.log(body)
   return (
     <Container
       sx={{
