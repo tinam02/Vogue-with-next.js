@@ -1,12 +1,12 @@
-import { useCallback, useContext, useRef } from "react";
-import { useQuery } from "@apollo/client";
-import { GET_ARTICLES } from "../../queries";
-import { Box, Container, Typography } from "@mui/material";
-import Masonry from "@mui/lab/Masonry";
-import ArticleCard from "../UI/ArticleCard";
-import { FBContext } from "../../context/FBContext";
-import Link from "next/link";
-import Spinner from "../UI/Spinner";
+import { useQuery } from '@apollo/client';
+import Masonry from '@mui/lab/Masonry';
+import { Box, Container, Typography } from '@mui/material';
+import { useCallback, useContext, useRef } from 'react';
+
+import { FBContext } from '../../../context/FBContext';
+import { GET_ARTICLES } from '../../../queries';
+import ArticleCard from '../../UI/ArticleCard';
+import Spinner from '../../UI/Spinner';
 
 const LatestArticles = () => {
   const { favArticles, addFavArticle } = useContext(FBContext);
@@ -14,7 +14,7 @@ const LatestArticles = () => {
     GET_ARTICLES,
     {
       variables: {
-        after: "MjAyMi0xMC0xN1QyMToxMDowNGlkNjM0OWUxNDRhNGMzYzJmODc2MjY2ZmRi",
+        after: "",
       },
       notifyOnNetworkStatusChange: true,
     }
@@ -88,6 +88,7 @@ const LatestArticles = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <Masonry
@@ -129,7 +130,20 @@ const LatestArticles = () => {
           })}
         </Masonry>
       </Container>
-      {networkStatus === 3 && <Spinner />}
+
+      {networkStatus === 3 && (
+        <Box
+          sx={{
+            pt: 3,
+            mb: {
+              xs: 6,
+              sm: 2,
+            },
+          }}
+        >
+          <Spinner />
+        </Box>
+      )}
     </>
   );
 };

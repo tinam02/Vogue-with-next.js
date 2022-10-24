@@ -134,8 +134,8 @@ export const GET_REVIEW_IMAGES = gql`
 `;
 
 export const GET_BRANDS = gql`
-  {
-    allBrands(first: 10, searchTerm: "margiela") {
+  query allBrands($searchTerm: String) {
+    allBrands(first: 10, searchTerm: $searchTerm) {
       Brand {
         id
         description

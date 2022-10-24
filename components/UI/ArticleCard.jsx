@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, ButtonBase,  Typography } from "@mui/material";
+import { Box, ButtonBase, Link as MuiLink, Typography } from "@mui/material";
 import Image from "mui-image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -14,10 +14,20 @@ const ArticleCard = ({ article, isFave = false, onFave }) => {
         justifyContent: "center",
         flexDirection: "column",
         textAlign: "justify",
-        alignItems: "center",
       }}
     >
+      <Box sx={{
+          overflow: "hidden",
+          "> div": {
+            transition: "transform 0.3s ease-in-out",
+          },
+          "> div:hover": {
+            transform: "scale(1.05)",
+          },
+      }}>
+
       <Image src={article.photosTout.resizedUrl} alt={"img"} />
+      </Box>
 
       <Box
         sx={{
@@ -53,7 +63,7 @@ const ArticleCard = ({ article, isFave = false, onFave }) => {
             },
           }}
         >
-          <Box>
+          <MuiLink underline="hover">
             <ReactMarkdown
               components={{
                 p: ({ node, ...props }) => (
@@ -61,10 +71,6 @@ const ArticleCard = ({ article, isFave = false, onFave }) => {
                     {...props}
                     sx={{
                       fontSize: "large",
-                      "&:hover": {
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                      },
                     }}
                   />
                 ),
@@ -72,7 +78,7 @@ const ArticleCard = ({ article, isFave = false, onFave }) => {
             >
               {article.title}
             </ReactMarkdown>
-          </Box>
+          </MuiLink>
         </Link>
       </Box>
     </Box>

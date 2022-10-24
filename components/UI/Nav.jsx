@@ -1,12 +1,12 @@
-import { useContext } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import { Link as MuiLink, SvgIcon } from "@mui/material";
-import { FBContext } from "../../context/FBContext";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
-import DefaultButton from "./DefaultButton";
-import Link from "next/link";
-import { ColorModeContext } from "../../context/themeContext";
+import { Button, Link as MuiLink, SvgIcon } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Link from 'next/link';
+import { useContext } from 'react';
+
+import { FBContext } from '../../context/FBContext';
+import { ColorModeContext } from '../../context/themeContext';
 
 const NavLink = ({ text, href }) => {
   return (
@@ -35,7 +35,7 @@ const Nav = () => {
     disableHysteresis: true,
     threshold: 330,
   });
-  const {toggleColorMode} = useContext(ColorModeContext);
+  const { toggleColorMode } = useContext(ColorModeContext);
 
   return (
     <AppBar
@@ -75,7 +75,10 @@ const Nav = () => {
         sx={{
           display: "flex",
           alignItems: "center",
-          gap: 5,
+          gap: {
+            xs: 3,
+            sm: 5,
+          },
           fontFamily: "BB",
         }}
       >
@@ -95,7 +98,10 @@ const Nav = () => {
         >
           <Box
             sx={{
-              fontSize: "21px",
+              fontSize: {
+                xs: "14px",
+                sm: "21px",
+              },
               fontFamily: "BB Condensed",
               display: "flex",
               alignItems: "center",
@@ -131,7 +137,10 @@ const Nav = () => {
             <SvgIcon
               sx={{
                 color: "text.primary",
-                fontSize: 60,
+                fontSize: {
+                  xs: 50,
+                  sm: 60,
+                },
               }}
             >
               <svg
@@ -145,32 +154,86 @@ const Nav = () => {
           </Box>
         </Box>
       </Link>
+
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "flex-end",
-          gap: 5,
-          fontFamily: "BB",
+          gap: {
+            xs: 3,
+            sm: 5,
+          },
         }}
       >
-
-        <DefaultButton
-          text="Theme"
-          onClick={toggleColorMode}
+        <Link passHref href="/search">
+          <SvgIcon
+            sx={{
+              color: "text.primary",
+              cursor: "pointer",
+              transition: "opacity 0.2s ease-in-out",
+              "&:hover": {
+                opacity: 0.75,
+              },
+              fontSize: {
+                xs: 20,
+                sm: 24,
+              },
+            }}
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M14.965 14.255H15.755L20.745 19.255L19.255 20.745L14.255 15.755V14.965L13.985 14.685C12.845 15.665 11.365 16.255 9.755 16.255C6.16504 16.255 3.255 13.345 3.255 9.755C3.255 6.16501 6.16504 3.255 9.755 3.255C13.345 3.255 16.255 6.16501 16.255 9.755C16.255 11.365 15.665 12.845 14.6851 13.985L14.965 14.255ZM5.255 9.755C5.255 12.245 7.26501 14.255 9.755 14.255C12.245 14.255 14.255 12.245 14.255 9.755C14.255 7.26501 12.245 5.255 9.755 5.255C7.26501 5.255 5.255 7.26501 5.255 9.755Z"
+              />
+            </svg>
+          </SvgIcon>
+        </Link>
+        <SvgIcon
           sx={{
             color: "text.primary",
-            backgroundColor: "background.paper",
-            border: "1px solid",
-            borderColor: "text.primary",
+            cursor: "pointer",
+            transition: "opacity 0.2s ease-in-out",
             "&:hover": {
-              backgroundColor: "background.paper",
+              opacity: 0.75,
+            },
+            fontSize: {
+              xs: 20,
+              sm: 24,
             },
           }}
-        />
-
-
-        {!currentUser && <DefaultButton onClick={signIn} text={"sign in"} />}
+          onClick={toggleColorMode}
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M19.9999 4V8.69L23.3099 12L19.9999 15.31V20H15.3099L11.9999 23.31L8.68994 20H3.99994V15.31L0.689941 12L3.99994 8.69V4H8.68994L11.9999 0.690002L15.3099 4H19.9999ZM9.49994 17.45C10.2599 17.8 11.1099 18 11.9999 18C15.3099 18 17.9999 15.31 17.9999 12C17.9999 8.69 15.3099 6 11.9999 6C11.1099 6 10.2599 6.2 9.49994 6.55C11.5599 7.5 12.9999 9.58 12.9999 12C12.9999 14.42 11.5599 16.5 9.49994 17.45Z"
+            />
+          </svg>
+        </SvgIcon>
+        {!currentUser && (
+          <Button
+            variant="default"
+            onClick={signIn}
+            sx={{
+              whiteSpace: "nowrap",
+            }}
+          >
+            Log in
+          </Button>
+        )}
         {currentUser && (
           <Link passHref href="/account">
             <SvgIcon
@@ -179,6 +242,10 @@ const Nav = () => {
                 alignItems: "center",
                 color: "text.primary",
                 cursor: "pointer",
+                transition: "opacity 0.2s ease-in-out",
+                "&:hover": {
+                  opacity: 0.75,
+                },
               }}
             >
               <svg

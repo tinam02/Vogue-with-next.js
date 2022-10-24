@@ -1,5 +1,5 @@
 import React from 'react'
-import LatestArticles from '../../components/Content/LatestArticles'
+import LatestArticles from '../../components/Content/Article/LatestArticles'
 
 const Articles = () => {
   return (

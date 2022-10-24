@@ -9,7 +9,7 @@ const BookmarkBlank = ({ fontSize = "24px" }) => {
         color: "text.primary",
         fontSize,
       }}
-    >
+     >
       <svg
         width="24"
         height="24"

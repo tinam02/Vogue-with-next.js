@@ -7,6 +7,7 @@ import { Box, Typography, Link as MuiLink } from "@mui/material";
 import Link from "next/link";
 import Image from "mui-image";
 import "swiper/css/bundle";
+import Spinner from "../UI/Spinner";
 
 const LatestShow = () => {
   const { loading, data } = useQuery(GET_LATEST_SHOW);
@@ -48,7 +49,7 @@ const LatestShow = () => {
     ));
   }, [data]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Spinner />;
   if (!data) return null;
   return (
     <>
@@ -59,8 +60,8 @@ const LatestShow = () => {
           alignItems: "center",
         }}
       >
-        <Typography sx={{ fontWeight: "bold",  fontSize: "19px" }}>
-          LATEST SHOW
+        <Typography sx={{ fontSize: "20px" }}>
+          
         </Typography>
 
         <Link

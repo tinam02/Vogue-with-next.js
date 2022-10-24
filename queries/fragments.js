@@ -40,6 +40,14 @@ export const articleFields = gql`
     seoDescription
     GMTPubDate
     contributor {
+      author {
+        name
+        photosTout {
+          ... on Image {
+            url
+          }
+        }
+      }
       photographer {
         name
         photosTout {
@@ -51,8 +59,25 @@ export const articleFields = gql`
     }
     body(enableEnhancedLinks: true)
     bodyEmbeds {
+      ... on Product {
+        name
+        id
+        photosTout {
+          ... on Image {
+            url
+            resizedUrl(w: 500)
+          }
+        }
+        offers {
+          sellerName
+          price
+          purchaseUri
+        }
+      }
       ... on Image {
+        id
         url
+        resizedUrl(w: 800)
       }
       ... on Gallery {
         url

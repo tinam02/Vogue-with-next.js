@@ -1,6 +1,6 @@
-import { Box, Typography } from "@mui/material";
-import Image from "mui-image";
-import React from "react";
+import { Box, Typography } from '@mui/material';
+import Image from 'mui-image';
+import React from 'react';
 
 const ShowCard = ({
   slug,
@@ -18,7 +18,19 @@ const ShowCard = ({
         cursor: "pointer",
       }}
     >
-      <Image src={resizedUrl} alt={altText} />
+      <Box
+        sx={{
+          overflow: "hidden",
+          "> div": {
+            transition: "transform 0.3s ease-in-out",
+          },
+          "> div:hover": {
+            transform: "scale(1.05)",
+          },
+        }}
+      >
+        <Image src={resizedUrl} alt={altText} sx={{}} />
+      </Box>
 
       <Box sx={{ textAlign: "center" }}>
         <Box sx={{ display: "flex", justifyContent: "center" }}>

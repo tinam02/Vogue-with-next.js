@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_LATEST_SHOWS } from "../../queries";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import ShowCard from "../UI/ShowCard";
 import Link from "next/link";
 import Spinner from "../UI/Spinner";
@@ -58,7 +58,29 @@ const LatestShows = () => {
   if (error) return <p>Error...</p>;
   if (!data) return null;
   return (
-    <Container maxWidth="lg" sx={{ mb: 2 }}>
+    <Container
+      maxWidth="lg"
+      sx={{
+        mb: {
+          xs: 7,
+          sm: 2,
+        },
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          mb: 1.5,
+          mt: 3,
+        }}
+      >
+        <Typography variant="h4" sx={{ fontSize: "20px" }}>
+          LATEST SHOWS
+        </Typography>
+      </Box>
+
       <Grid container spacing={2}>
         {data.allContent.Content.map((show, i) => {
           if (data.allContent.Content.length == i + 1) {

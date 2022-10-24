@@ -1,24 +1,26 @@
-import { useState, useMemo } from "react";
-import { useRouter } from "next/router";
+import "yet-another-react-lightbox/styles.css";
+
 import { useQuery } from "@apollo/client";
-import { GET_REVIEW_IMAGES } from "../../queries";
 import {
   Box,
-  Avatar,
-  Grid,
-  Container,
-  Typography,
-  Link as MuiLink,
   ButtonBase,
+  Container,
+  Grid,
+  Link as MuiLink,
+  SvgIcon,
+  Typography,
 } from "@mui/material";
-import Link from "next/link";
 import Image from "mui-image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useMemo, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import ReactMarkdown from "react-markdown";
 
-import "yet-another-react-lightbox/styles.css";
 import AuthorCard from "../../components/UI/AuthorCard";
+import Spinner from "../../components/UI/Spinner";
+import { GET_REVIEW_IMAGES } from "../../queries";
 
 const CollectionPage = () => {
   const [openImgIdx, setOpenImgIdx] = useState(-1);
@@ -31,7 +33,7 @@ const CollectionPage = () => {
     variables: { slug },
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Spinner />;
   if (!data || !data.fashionShowV2) return <p>no data</p>;
   const {
     brand,
@@ -47,12 +49,12 @@ const CollectionPage = () => {
     src: slide.photosTout.url,
     alt: slide.photosTout.altText,
   }));
+  console.log(livestream);
 
   const detailSlides = detail?.slidesV2?.slide?.map((slide) => ({
     src: slide.photosTout.url,
     alt: slide.photosTout.altText,
   }));
-  console.log(body)
   return (
     <Container
       sx={{
@@ -111,7 +113,45 @@ const CollectionPage = () => {
       >
         &#65103;{brand.name} {channel?.name || "review"}&#65103;
       </Typography>
-      <ReactMarkdown>{body}</ReactMarkdown>
+      <Box
+        sx={{
+          display: {
+            xs: "none",
+            sm: "block",
+          },
+          textAlign: "center",
+          "& > iframe": {
+            width: "100%",
+          },
+        }}
+      >
+        {livestream && (
+          <iframe
+            width={960}
+            height={540}
+            src={`${livestream}?autoplay=1`}
+            title="Show Livestream"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        )}
+      </Box>
+      <ReactMarkdown
+        components={{
+          p: ({ node, ...props }) => (
+            <Typography
+              {...props}
+              sx={{
+                whiteSpace: "pre-line",
+                // fontFamily: "BB",
+              }}
+            />
+          ),
+        }}
+      >
+        {body}
+      </ReactMarkdown>
       <Box
         sx={{
           display: "flex",
@@ -168,14 +208,25 @@ const CollectionPage = () => {
           }}
         >
           DETAILS GALLERY
-          <Box
+          <SvgIcon
             sx={{
-              transform: openDetailsGallery ? "rotate(180deg)" : "rotate(0deg)",
+              fontSize: {
+                xs: 24,
+                md: 35,
+              },
+              transform: openDetailsGallery ? "rotate(136deg)" : "rotate(0deg)",
               transition: "transform 0.5s",
             }}
           >
-            &#65291;
-          </Box>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+            </svg>
+          </SvgIcon>
         </ButtonBase>
       )}
       {detailSlides && openDetailsGallery && (

@@ -1,11 +1,9 @@
-import { useContext } from "react";
 import Head from "next/head";
-import { FBContext } from "../context/FBContext";
-import Brands from "../components/Brands/Brands";
-import Article from "../components/Content/Article";
+
 import LatestShows from "../components/Content/LatestShows";
 import LatestShow from "../components/Content/LatestShow";
-import { ColorModeContext } from "../context/themeContext";
+import { Divider } from "@mui/material";
+
 export default function Home() {
   return (
     <>
@@ -17,6 +15,8 @@ export default function Home() {
 
       <main>
         <LatestShow />
+        <Divider sx={{ my: 0.3, color: "text.primary" }} />
+        <Divider sx={{ my: 0.3, color: "text.primary" }} />
         <LatestShows />
       </main>
     </>

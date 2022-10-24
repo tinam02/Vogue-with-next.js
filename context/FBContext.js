@@ -7,6 +7,7 @@ import {
   doc,
   addDoc,
   deleteDoc,
+  orderBy,
 } from "firebase/firestore";
 import { auth, provider, db } from "../firebase";
 import {
@@ -74,6 +75,7 @@ const FBContextProvider = ({ children }) => {
         return;
       }
       const userRef = doc(db, "users", currentUser.uid);
+      //sort by add date
       const favArticlesRef = collection(userRef, "favorites");
 
       if (favArticles.some((fav) => fav.slug === article.slug)) {
@@ -110,6 +112,8 @@ const FBContextProvider = ({ children }) => {
         const favesRef = collection(userRef, "favorites");
         const favesSnapshot = await getDocs(favesRef);
         if (favesSnapshot.empty) return;
+
+        console.log(favesSnapshot.docs);
         const faves = favesSnapshot.docs.map((doc) => doc.data());
         setFavArticles(faves);
         return faves;

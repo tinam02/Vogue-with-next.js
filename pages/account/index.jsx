@@ -14,7 +14,7 @@ const Account = () => {
     if (!currentUser && !loading) {
       push("/");
     }
-  }, [currentUser, loading,push]);
+  }, [currentUser, loading, push]);
 
   return (
     <>

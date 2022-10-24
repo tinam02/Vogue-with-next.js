@@ -1,10 +1,11 @@
 import Head from "next/head";
 import { useContext, useEffect } from "react";
-import { Grid } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { useRouter } from "next/router";
 import { FBContext } from "../../context/FBContext";
 import ProfileNav from "../../components/UI/ProfileNav";
 import ArticleCard from "../../components/UI/ArticleCard";
+import Masonry from "@mui/lab/Masonry";
 
 export default function FavoriteArticles() {
   const { favArticles, currentUser, loading, addFavArticle } =
@@ -28,19 +29,41 @@ export default function FavoriteArticles() {
 
       <main>
         <ProfileNav />
-        <Grid container spacing={3}>
-          {favArticles.map((article, i) => {
-            return (
-              <Grid item key={article.slug} sm={12} md={6} xl={3}>
-                <ArticleCard
-                  article={article}
-                  isFave={true}
-                  onFave={() => addFave(article)}
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
+        <Container
+          disableGutters
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Masonry
+            columns={{
+              xs: 1,
+              sm: 2,
+              md: 3,
+            }}
+            spacing={3}
+            sx={{
+              border: {
+                xs: "none",
+                lg: "1px dotted  #000",
+              },
+            }}
+          >
+            {favArticles.map((article, i) => {
+              return (
+                <Box key={article.slug}>
+                  <ArticleCard
+                    article={article}
+                    isFave={true}
+                    onFave={() => addFave(article)}
+                  />
+                </Box>
+              );
+            })}
+          </Masonry>
+        </Container>
       </main>
     </div>
   );

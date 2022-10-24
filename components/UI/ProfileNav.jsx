@@ -1,9 +1,9 @@
-import { useContext, useEffect } from "react";
-import { Box, Button, Link as MuiLink } from "@mui/material";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import DefaultButton from "./DefaultButton";
-import { FBContext } from "../../context/FBContext";
+import { Box, Button, Link as MuiLink } from '@mui/material';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useContext, useEffect } from 'react';
+
+import { FBContext } from '../../context/FBContext';
 
 const ProfileNav = () => {
   const router = useRouter();
@@ -55,7 +55,9 @@ const ProfileNav = () => {
       })}
 
       <Box sx={{ ml: "auto" }}>
-        <DefaultButton onClick={logOut} text={"sign out"} />
+        <Button onClick={logOut} variant="default">
+          Sign out
+        </Button>
       </Box>
     </Box>
   );
