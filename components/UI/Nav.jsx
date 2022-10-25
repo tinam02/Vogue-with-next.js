@@ -235,7 +235,7 @@ const Nav = () => {
           </Button>
         )}
         {currentUser && (
-          <Link passHref href="/account">
+          <Link passHref href="/account/favorite-articles">
             <SvgIcon
               sx={{
                 display: "flex",

@@ -30,6 +30,7 @@ const baseTheme: ThemeOptions = {
 const darkPalette = {
   primary: {
     main: "#f5f5f5",
+    mainGradient: "linear-gradient(transparent, black)",
   },
   secondary: {
     main: "#f5f5f5",
@@ -47,6 +48,7 @@ const darkPalette = {
 const lightPalette = {
   primary: {
     main: "#000",
+    mainGradient: "linear-gradient(transparent, white)",
   },
   secondary: {
     main: "#000",

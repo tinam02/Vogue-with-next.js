@@ -267,6 +267,35 @@ export const GET_ARTICLES = gql`
   }
 `;
 
+export const SEARCH_ARTICLES = gql`
+  ${articleFields}
+  query allContent($after: String, $searchTerm: String) {
+    allContent(
+      first: 10
+      after: $after
+      searchTerm: $searchTerm
+      filter: { channel: { slug: "fashion" } }
+      hierarchy: null
+      type: ["ArticleCopilot"]
+      exclude: {
+        categories: [{ hierarchy: "functional-tags/noriver" }]
+        contentFlags: { hideFromFeed: true }
+      }
+    ) {
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
+      Content {
+        ... on ArticleCopilot {
+          ...articleFields
+        }
+      }
+    }
+  }
+`;
+
 export const GET_ARTICLE = gql`
   ${articleFields}
   query articleCopilot($slug: String) {

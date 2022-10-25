@@ -71,7 +71,6 @@ const SeasonPage = () => {
 
   if (error) return <p>Error...</p>;
   if (!data) return null;
-  console.log(data.allContent.Content[0]?.brand);
   return (
     <Container
       maxWidth="lg"
@@ -179,7 +178,10 @@ const SeasonPage = () => {
                 gap: 1,
               }}
             >
-              <Typography variant="body2" sx={{ color: "text.secondary", pt: "2px" }}>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary", pt: "2px" }}
+              >
                 PREVIOUS DESIGNERS:&nbsp;
               </Typography>
               <Box>
@@ -240,7 +242,7 @@ const SeasonPage = () => {
                 bottom: 0,
                 opacity: 0.4,
                 pointerEvents: "none",
-                background: "linear-gradient(transparent, white)",
+                background: (theme) => theme.palette.primary.mainGradient,
               }}
             />
             <ReactMarkdown>

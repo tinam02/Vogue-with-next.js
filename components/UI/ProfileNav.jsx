@@ -1,9 +1,9 @@
-import { Box, Button, Link as MuiLink } from '@mui/material';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useContext, useEffect } from 'react';
+import { Box, Button, Link as MuiLink } from "@mui/material";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
 
-import { FBContext } from '../../context/FBContext';
+import { FBContext } from "../../context/FBContext";
 
 const ProfileNav = () => {
   const router = useRouter();
@@ -16,12 +16,12 @@ const ProfileNav = () => {
 
   const links = [
     {
-      label: "/account",
-      path: "/account",
-    },
-    {
       label: "/favorite-articles",
       path: "/account/favorite-articles",
+    },
+    {
+      label: "/account",
+      path: "/account",
     },
   ];
 

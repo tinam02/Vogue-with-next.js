@@ -1,22 +1,26 @@
-import { createContext, useState, useCallback, useEffect } from "react";
-import {
-  collection,
-  getDocs,
-  getDoc,
-  setDoc,
-  doc,
-  addDoc,
-  deleteDoc,
-  orderBy,
-} from "firebase/firestore";
-import { auth, provider, db } from "../firebase";
 import {
   GoogleAuthProvider,
-  signInWithPopup,
   onAuthStateChanged,
+  signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
+import { createContext, useCallback, useEffect, useState } from "react";
 
+import { auth, db, provider, storage } from "../firebase";
+import { ref, getDownloadURL, uploadString } from "firebase/storage";
+function uid() {
+  return Math.random().toString(36).substring(2) + Date.now().toString(36);
+}
 const FBContext = createContext();
 
 const FBContextProvider = ({ children }) => {
@@ -75,7 +79,6 @@ const FBContextProvider = ({ children }) => {
         return;
       }
       const userRef = doc(db, "users", currentUser.uid);
-      //sort by add date
       const favArticlesRef = collection(userRef, "favorites");
 
       if (favArticles.some((fav) => fav.slug === article.slug)) {
@@ -103,17 +106,50 @@ const FBContextProvider = ({ children }) => {
     [currentUser, favArticles]
   );
 
+  const updateUsername = useCallback(
+    async (name) => {
+      setLoading(true);
+      try {
+        await updateProfile(currentUser, { displayName: name });
+        const userRef = doc(db, "users", currentUser.uid);
+        await setDoc(userRef, { name }, { merge: true });
+        setCurrentUser((prev) => ({ ...prev, displayName: name }));
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+    },
+    [currentUser]
+  );
+
+  const uploadToStorage = useCallback(
+    async (file) => {
+      try {
+        setLoading(true);
+        const storageRef = ref(storage, `images/${currentUser.uid}/${uid()}`);
+        const snapshot = await uploadString(storageRef, file, "data_url");
+        const url = await getDownloadURL(snapshot.ref);
+        console.log(url);
+        await updateProfile(currentUser, { photoURL: url });
+        const userRef = doc(db, "users", currentUser.uid);
+        await setDoc(userRef, { avatar: url }, { merge: true });
+        setCurrentUser((prev) => ({ ...prev, photoURL: url }));
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+    },
+    [currentUser]
+  );
+
   useEffect(() => {
     const getFaves = async () => {
       if (!currentUser) return;
-
       try {
         const userRef = doc(db, "users", currentUser.uid);
         const favesRef = collection(userRef, "favorites");
         const favesSnapshot = await getDocs(favesRef);
         if (favesSnapshot.empty) return;
-
-        console.log(favesSnapshot.docs);
         const faves = favesSnapshot.docs.map((doc) => doc.data());
         setFavArticles(faves);
         return faves;
@@ -133,6 +169,8 @@ const FBContextProvider = ({ children }) => {
         loading,
         addFavArticle,
         favArticles,
+        updateUsername,
+        uploadToStorage,
       }}
     >
       {children}

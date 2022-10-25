@@ -4,7 +4,6 @@ import { GET_BRANDS } from "../../../queries";
 
 const Brands = () => {
   const { loading, error, data } = useQuery(GET_BRANDS);
-  // console.log(data)
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error...</p>;
 

@@ -49,7 +49,6 @@ const CollectionPage = () => {
     src: slide.photosTout.url,
     alt: slide.photosTout.altText,
   }));
-  console.log(livestream);
 
   const detailSlides = detail?.slidesV2?.slide?.map((slide) => ({
     src: slide.photosTout.url,

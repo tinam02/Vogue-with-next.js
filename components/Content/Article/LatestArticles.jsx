@@ -4,22 +4,22 @@ import { Box, Container, Typography } from '@mui/material';
 import { useCallback, useContext, useRef } from 'react';
 
 import { FBContext } from '../../../context/FBContext';
-import { GET_ARTICLES } from '../../../queries';
+import { SEARCH_ARTICLES } from '../../../queries';
 import ArticleCard from '../../UI/ArticleCard';
 import Spinner from '../../UI/Spinner';
 
-const LatestArticles = () => {
+const LatestArticles = ({ searchTerm = "" }) => {
   const { favArticles, addFavArticle } = useContext(FBContext);
   const { loading, error, data, fetchMore, networkStatus } = useQuery(
-    GET_ARTICLES,
+    SEARCH_ARTICLES,
     {
       variables: {
         after: "",
+        searchTerm,
       },
       notifyOnNetworkStatusChange: true,
     }
   );
-  console.log(networkStatus);
   const articleIsFavorite = useCallback(
     (article) => {
       return favArticles.some((favArticle) => favArticle.slug === article.slug);
@@ -77,11 +77,29 @@ const LatestArticles = () => {
     <>
       <Box
         sx={{
-          textAlign: "center",
+          display: "flex",
+          justifyContent: "center",
+          gap: 1,
           mb: 1,
+          fontSize: 40,
         }}
       >
-        <Typography variant="h2">Latest Articles</Typography>
+        <Typography variant="span">Latest articles</Typography>
+
+        {searchTerm.length >= 3 && (
+          <Typography variant="span">about</Typography>
+        )}
+        {searchTerm.length >= 3 && (
+          <Typography
+            variant="span"
+            sx={{
+              fontStyle: "italic",
+            }}
+          >
+            {" "}
+            {searchTerm}
+          </Typography>
+        )}
       </Box>
       <Container
         disableGutters
@@ -101,7 +119,7 @@ const LatestArticles = () => {
           sx={{
             border: {
               xs: "none",
-              lg: "1px dotted  #000",
+              lg: "1px dotted",
             },
           }}
         >

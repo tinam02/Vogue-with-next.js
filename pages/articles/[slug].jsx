@@ -179,8 +179,8 @@ const ArticlePage = () => {
         }}
       >
         <AuthorCard
-          name={data.articleCopilot.contributor?.author[0]?.name}
-          avatar={data.articleCopilot.contributor?.author[0]?.photosTout?.url}
+          name={data.articleCopilot?.contributor?.author[0]?.name}
+          avatar={data.articleCopilot?.contributor?.author[0]?.photosTout?.url}
         />
       </Box>
       <Divider sx={{ my: 2 }} />

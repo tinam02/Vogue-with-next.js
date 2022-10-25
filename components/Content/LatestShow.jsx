@@ -60,9 +60,7 @@ const LatestShow = () => {
           alignItems: "center",
         }}
       >
-        <Typography sx={{ fontSize: "20px" }}>
-          
-        </Typography>
+        <Typography sx={{ fontSize: "20px" }}>NEW IN</Typography>
 
         <Link
           passHref

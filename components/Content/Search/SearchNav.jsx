@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography } from "@mui/material";
 
 const SearchNav = ({ selected, setSelected }) => {
   const isActive = (name) => {
@@ -21,19 +21,13 @@ const SearchNav = ({ selected, setSelected }) => {
       sx={{
         display: "flex",
         gap: 3,
-        alignItems: "center",
-        px: {
-          xs: 2,
-          md: 0,
-        },
-        pb: 2,
+        py: 2,
       }}
     >
       {links.map((link, i) => {
         return (
           <Typography
-            onClick={() => {setSelected(link.selectedLabel)
-            console.log(isActive(link.selectedLabel))}}
+            onClick={() => setSelected(link.selectedLabel)}
             key={i}
             sx={{
               textDecoration: isActive(link.selectedLabel)

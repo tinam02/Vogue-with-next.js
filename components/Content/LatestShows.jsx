@@ -77,7 +77,7 @@ const LatestShows = () => {
         }}
       >
         <Typography variant="h4" sx={{ fontSize: "20px" }}>
-          LATEST SHOWS
+          LATEST ADDITIONS
         </Typography>
       </Box>
 
