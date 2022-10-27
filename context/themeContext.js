@@ -1,6 +1,7 @@
-import { useState, useMemo, useEffect, createContext } from "react";
-import { ThemeProvider, CssBaseline, createTheme } from "@mui/material";
-import { baseTheme, darkPalette, lightPalette } from "../styles/theme";
+import { createTheme, ThemeProvider } from '@mui/material';
+import { createContext, useEffect, useMemo, useState } from 'react';
+
+import { baseTheme, darkPalette, lightPalette } from '../styles/theme';
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 

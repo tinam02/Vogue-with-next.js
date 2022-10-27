@@ -1,21 +1,21 @@
-import { useCallback, useState, useRef } from "react";
-import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
-import Link from "next/link";
-import { GET_BRAND_SHOWS } from "../../queries";
-import ShowCard from "../../components/UI/ShowCard";
 import {
   Box,
-  Button,
   ButtonBase,
-  CardContent,
   Collapse,
   Container,
   Divider,
   Grid,
   Typography,
 } from "@mui/material";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useCallback, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
+
+import ShowCard from "../../components/UI/ShowCard";
+import { GET_BRAND_SHOWS } from "../../queries";
 import removeBrackets from "../../services/removeBrackets";
 
 const SeasonPage = () => {
@@ -25,6 +25,7 @@ const SeasonPage = () => {
     variables: { after: "", filter: { brand: { slug: slug } } },
     notifyOnNetworkStatusChange: true,
   });
+
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -72,270 +73,277 @@ const SeasonPage = () => {
   if (error) return <p>Error...</p>;
   if (!data) return null;
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        mb: 2,
-      }}
-    >
-      <Box
+    <>
+      <Head>
+        <title>{data.allContent.Content[0].brand.name}</title>
+      </Head>
+      <Container
+        maxWidth="lg"
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: {
-            xs: "flex-start",
-            md: "center",
-          },
-          flexDirection: {
-            xs: "column",
-            md: "row",
-          },
+          mb: 2,
         }}
       >
-        <Typography
+        <Box
           sx={{
-            textTransform: "uppercase",
-            fontSize: {
-              xs: "34px",
-              md: "44px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: {
+              xs: "flex-start",
+              md: "center",
+            },
+            flexDirection: {
+              xs: "column",
+              md: "row",
             },
           }}
         >
-          &#65103;{slug}&#65103;
-        </Typography>
-        {/* designers */}
-        {data.allContent.Content[0]?.brand.designers.length > 0 && (
-          <Box
+          <Typography
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "570px",
-              flexDirection: {
-                xs: "column",
-                lg: "row",
+              textTransform: "uppercase",
+              fontSize: {
+                xs: "34px",
+                md: "44px",
               },
             }}
           >
+            &#65103;{slug}&#65103;
+          </Typography>
+          {/* designers */}
+          {data.allContent.Content[0]?.brand.designers.length > 0 && (
             <Box
               sx={{
                 display: "flex",
-                gap: 1,
+                justifyContent: "space-between",
+                gap: {
+                  lg: 2,
+                },
+                flexDirection: {
+                  xs: "column",
+                  lg: "row",
+                },
               }}
             >
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary", pt: "2px" }}
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                }}
               >
-                DESIGNERS:&nbsp;
-              </Typography>
-              {data.allContent.Content[0].brand.designers.map((designer) => (
-                <Box
-                  key={designer.name}
-                  sx={{
-                    display: "flex",
-                    gap: 1,
-                  }}
+                <Typography
+                  variant="body2"
+                  sx={{ color: "text.secondary", pt: "2px" }}
                 >
-                  <Typography>{designer.name}</Typography>
+                  DESIGNERS:&nbsp;
+                </Typography>
+                {data.allContent.Content[0].brand.designers.map((designer) => (
                   <Box
+                    key={designer.name}
                     sx={{
                       display: "flex",
-                      alignItems: "center",
+                      flexDirection: "column",
                     }}
                   >
-                    {designer.startYear && (
-                      <Typography
-                        variant="body2"
-                        sx={{ opacity: "0.4", fontSize: "12px" }}
-                      >
-                        {designer.startYear} -&nbsp;
-                      </Typography>
-                    )}
-                    {designer.endYear && (
-                      <Typography
-                        variant="body2"
-                        sx={{ opacity: "0.4", fontSize: "12px" }}
-                      >
-                        {designer.endYear}
-                      </Typography>
-                    )}
-                  </Box>
-                </Box>
-              ))}
-            </Box>
-            {data.allContent.Content[0].brand.previousDesigners && (
-              <Divider
-                orientation="vertical"
-                flexItem
-                sx={{
-                  transform: "rotate(10deg)",
-                }}
-              />
-            )}
-            <Box
-              sx={{
-                display: "flex",
-                gap: 1,
-              }}
-            >
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary", pt: "2px" }}
-              >
-                PREVIOUS DESIGNERS:&nbsp;
-              </Typography>
-              <Box>
-                {data.allContent.Content[0].brand.previousDesigners.map(
-                  (designer) => (
+                    <Typography>{designer.name}</Typography>
                     <Box
-                      key={designer.name}
                       sx={{
                         display: "flex",
-                        gap: 1,
+                        alignItems: "center",
                       }}
                     >
-                      <Typography>{designer.name}</Typography>
+                      {designer.startYear && (
+                        <Typography
+                          variant="body2"
+                          sx={{ opacity: "0.4", fontSize: "12px" }}
+                        >
+                          {designer.startYear} -&nbsp;
+                        </Typography>
+                      )}
+                      {designer.endYear && (
+                        <Typography
+                          variant="body2"
+                          sx={{ opacity: "0.4", fontSize: "12px" }}
+                        >
+                          {designer.endYear}
+                        </Typography>
+                      )}
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+              {data.allContent.Content[0].brand.previousDesigners && (
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{
+                    transform: "rotate(10deg)",
+                  }}
+                />
+              )}
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{ color: "text.secondary", pt: "2px" }}
+                >
+                  PREVIOUS DESIGNERS:&nbsp;
+                </Typography>
+                <Box>
+                  {data.allContent.Content[0].brand.previousDesigners.map(
+                    (designer) => (
                       <Box
+                        key={designer.name}
                         sx={{
-                          display: {
-                            xs: "none",
-                            lg: "flex",
-                          },
-                          alignItems: "center",
+                          display: "flex",
+                          flexDirection: "column",
                         }}
                       >
-                        {designer.startYear && (
-                          <Typography
-                            variant="body2"
-                            sx={{ opacity: "0.4", fontSize: "12px" }}
-                          >
-                            {designer.startYear} -&nbsp;
-                          </Typography>
-                        )}
-                        {designer.endYear && (
-                          <Typography
-                            variant="body2"
-                            sx={{ opacity: "0.4", fontSize: "12px" }}
-                          >
-                            {designer.endYear}
-                          </Typography>
-                        )}
+                        <Typography>{designer.name}</Typography>
+                        <Box
+                          sx={{
+                            display: {
+                              xs: "none",
+                              lg: "flex",
+                            },
+                            alignItems: "center",
+                          }}
+                        >
+                          {designer.startYear && (
+                            <Typography
+                              variant="body2"
+                              sx={{ opacity: "0.4", fontSize: 11 }}
+                            >
+                              {designer.startYear} -&nbsp;
+                            </Typography>
+                          )}
+                          {designer.endYear && (
+                            <Typography
+                              variant="body2"
+                              sx={{ opacity: "0.4", fontSize: 11 }}
+                            >
+                              {designer.endYear}
+                            </Typography>
+                          )}
+                        </Box>
                       </Box>
-                    </Box>
-                  )
-                )}
+                    )
+                  )}
+                </Box>
               </Box>
             </Box>
-          </Box>
-        )}
-      </Box>
-      <Box>
-        {/* description */}
-        {!expanded && (
-          <Box sx={{ position: "relative" }}>
-            <Typography
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                opacity: 0.4,
-                pointerEvents: "none",
-                background: (theme) => theme.palette.primary.mainGradient,
-              }}
-            />
+          )}
+        </Box>
+        <Box>
+          {/* description */}
+          {!expanded && (
+            <Box sx={{ position: "relative" }}>
+              <Typography
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  opacity: 0.4,
+                  pointerEvents: "none",
+                  background: (theme) => theme.palette.primary.mainGradient,
+                }}
+              />
+              <ReactMarkdown>
+                {data.allContent.Content[0]?.brand?.description &&
+                  removeBrackets(
+                    data.allContent.Content[0].brand.description
+                  ).slice(0, 600) + "..."}
+              </ReactMarkdown>
+            </Box>
+          )}
+          <Collapse in={expanded} unmountOnExit>
             <ReactMarkdown>
               {data.allContent.Content[0]?.brand?.description &&
-                removeBrackets(
-                  data.allContent.Content[0].brand.description
-                ).slice(0, 600) + "..."}
+                removeBrackets(data.allContent.Content[0].brand.description)}
             </ReactMarkdown>
-          </Box>
-        )}
-        <Collapse in={expanded} unmountOnExit>
-          <ReactMarkdown>
-            {data.allContent.Content[0]?.brand?.description &&
-              removeBrackets(data.allContent.Content[0].brand.description)}
-          </ReactMarkdown>
-        </Collapse>
-        {data.allContent.Content[0]?.brand?.description && (
-          <ButtonBase
-            disableRipple
-            onClick={handleExpandClick}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 0.5,
-            }}
-          >
-            <Box
+          </Collapse>
+          {data.allContent.Content[0]?.brand?.description && (
+            <ButtonBase
+              disableRipple
+              onClick={handleExpandClick}
               sx={{
-                transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
-                transition: "transform 0.5s",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 0.5,
               }}
             >
-              &#x25BC;
-            </Box>
-            Show {expanded ? "less" : "more"}
-          </ButtonBase>
-        )}
-      </Box>
+              <Box
+                sx={{
+                  transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+                  transition: "transform 0.5s",
+                }}
+              >
+                &#x25BC;
+              </Box>
+              Show {expanded ? "less" : "more"}
+            </ButtonBase>
+          )}
+        </Box>
 
-      <Divider sx={{ my: 3 }} />
-      {/* shows */}
-      <Typography variant="body2">SHOWS</Typography>
-      <Grid container spacing={2}>
-        {data.allContent.Content.map((show, i) => {
-          if (data.allContent.Content.length == i + 1) {
-            return (
-              <Link
-                key={show.id}
-                href={{
-                  pathname: "/collection/[slug]",
-                  query: {
-                    slug: show.slug,
-                  },
-                }}
-              >
-                <Grid item xs={12} sm={6} md={4} lg={3} ref={lastShowRef}>
-                  <ShowCard
-                    resizedUrl={show.photosTout.resizedUrl}
-                    altText={show.photosTout.altText}
-                    title={show.title}
-                    channel={show.channels[0]?.name}
-                    season={show.season.name}
-                  />
-                </Grid>
-              </Link>
-            );
-          } else {
-            return (
-              <Link
-                key={show.id}
-                href={{
-                  pathname: "/collection/[slug]",
-                  query: {
-                    slug: show.slug,
-                  },
-                }}
-              >
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <ShowCard
-                    resizedUrl={show.photosTout.resizedUrl}
-                    altText={show.photosTout.altText}
-                    title={show.title}
-                    channel={show.channels[0]?.name}
-                    season={show.season.name}
-                  />
-                </Grid>
-              </Link>
-            );
-          }
-        })}
-      </Grid>
-    </Container>
+        <Divider sx={{ my: 3 }} />
+        {/* shows */}
+        <Typography variant="body2">SHOWS</Typography>
+        <Grid container spacing={2}>
+          {data.allContent.Content.map((show, i) => {
+            if (data.allContent.Content.length == i + 1) {
+              return (
+                <Link
+                  key={show.id}
+                  href={{
+                    pathname: "/collection/[slug]",
+                    query: {
+                      slug: show.slug,
+                    },
+                  }}
+                >
+                  <Grid item xs={12} sm={6} md={4} lg={3} ref={lastShowRef}>
+                    <ShowCard
+                      resizedUrl={show.photosTout.resizedUrl}
+                      altText={show.photosTout.altText}
+                      title={show.title}
+                      channel={show.channels[0]?.name}
+                      season={show.season.name}
+                    />
+                  </Grid>
+                </Link>
+              );
+            } else {
+              return (
+                <Link
+                  key={show.id}
+                  href={{
+                    pathname: "/collection/[slug]",
+                    query: {
+                      slug: show.slug,
+                    },
+                  }}
+                >
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <ShowCard
+                      resizedUrl={show.photosTout.resizedUrl}
+                      altText={show.photosTout.altText}
+                      title={show.title}
+                      channel={show.channels[0]?.name}
+                      season={show.season.name}
+                    />
+                  </Grid>
+                </Link>
+              );
+            }
+          })}
+        </Grid>
+      </Container>
+    </>
   );
 };
 

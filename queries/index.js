@@ -1,9 +1,6 @@
-import { gql } from "@apollo/client";
-import {
-  personFields,
-  fashionShowGalleryFields,
-  articleFields,
-} from "./fragments";
+import { gql } from '@apollo/client';
+
+import { articleFields, fashionShowGalleryFields, personFields } from './fragments';
 
 export const GET_SEASONS = gql`
   query allSeasons($searchTerm: String) {
@@ -135,7 +132,7 @@ export const GET_REVIEW_IMAGES = gql`
 
 export const GET_BRANDS = gql`
   query allBrands($searchTerm: String) {
-    allBrands(first: 10, searchTerm: $searchTerm) {
+    allBrands(first: 15, searchTerm: $searchTerm) {
       Brand {
         id
         description

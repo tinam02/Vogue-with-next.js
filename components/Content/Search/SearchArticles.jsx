@@ -1,12 +1,10 @@
-import { useContext, useCallback } from "react";
-import { useQuery } from "@apollo/client";
-import { SEARCH_ARTICLES } from "../../../queries";
-import Spinner from "../../UI/Spinner";
-import { Box, Container, Typography } from "@mui/material";
-import Masonry from "@mui/lab/Masonry";
-import ArticleCard from "../../UI/ArticleCard";
-import { FBContext } from "../../../context/FBContext";
-import LatestArticles from "../Article/LatestArticles";
+import { useQuery } from '@apollo/client';
+import { useCallback, useContext } from 'react';
+
+import { FBContext } from '../../../context/FBContext';
+import { SEARCH_ARTICLES } from '../../../queries';
+import Spinner from '../../UI/Spinner';
+import LatestArticles from '../Article/LatestArticles';
 
 const SearchArticles = ({ searchTerm }) => {
   const { favArticles, addFavArticle } = useContext(FBContext);

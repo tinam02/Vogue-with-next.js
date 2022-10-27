@@ -4,6 +4,7 @@ import {
   Button,
   Divider,
   Input,
+  InputLabel,
   SvgIcon,
   TextField,
   Typography,
@@ -47,7 +48,7 @@ const Account = () => {
   return (
     <>
       <Head>
-        <title>My Account - Saved Articles</title>
+        <title>Profile</title>
       </Head>
 
       <>
@@ -73,6 +74,8 @@ const Account = () => {
           sx={{
             display: "flex",
             justifyContent: "space-between",
+            flexDirection: "column",
+            gap: 4,
           }}
         >
           <Box
@@ -128,15 +131,51 @@ const Account = () => {
                 Update
               </Button>
             </Box>
-            <Input type="file" onChange={(e) => readFile(e.target.files[0])} />
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: 3,
+                alignItems: "center",
+              }}
+            >
+              <InputLabel
+                sx={{
+                  fontFamily: "BB",
+                  color: "text.secondary",
+                }}
+              >
+                Profile picture
+              </InputLabel>
+
+              <Button
+                variant="default"
+                color="primary"
+                component="label"
+                sx={{
+                  fontFamily: "BB",
+                }}
+              >
+                Upload
+                <Input
+                  type="file"
+                  sx={{
+                    display: "none",
+                  }}
+                  inputProps={{
+                    accept: "image/*",
+                  }}
+                  onChange={(e) => readFile(e.target.files[0])}
+                />
+              </Button>
+            </Box>
           </Box>
           {/* stats */}
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+
               gap: 2,
             }}
           >
@@ -155,11 +194,9 @@ const Account = () => {
             </Box>
             <Box
               sx={{
-                display: "flex",
                 gap: 3,
+                display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
               }}
             >
               <Avatar
@@ -169,18 +206,29 @@ const Account = () => {
                   height: 130,
                 }}
               />
-              <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
+              <Box>
                 <Typography
                   variant="body2"
                   sx={{
-                    fontFamily: "BB",
                     fontSize: 24,
-                    color: "text.secondary",
+                    fontFamily: "BB",
                   }}
                 >
-                  {favArticles?.length}
+                  {currentUser?.displayName}
                 </Typography>
-                <BookmarkFilled fontSize="16" />
+                <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
+                  <BookmarkFilled fontSize="16" />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontSize: 24,
+                      fontFamily: "BB",
+                      color: "text.secondary",
+                    }}
+                  >
+                    {favArticles?.length}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           </Box>

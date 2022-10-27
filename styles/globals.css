@@ -18,15 +18,15 @@
 
 html,
 body {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 * {
   box-sizing: border-box;
 }
 
-/* ===== Scrollbar CSS ===== */
+/* ===== Scrollbar ===== */
 /* Firefox */
 * {
   scrollbar-width: thin;
@@ -34,13 +34,13 @@ body {
 }
 /* modify selection color */
 ::selection {
-  background-color: #000000;
   color: #ffffff;
+  background-color: #000000;
 }
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  scrollbar-width: thin;
   width: 16px;
+  scrollbar-width: thin;
 }
 ::-webkit-scrollbar {
   width: 11px;
@@ -53,23 +53,4 @@ body {
 *::-webkit-scrollbar-thumb {
   background-color: #fff;
   border: 1px solid #000000;
-}
-/* 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
-} */
-
-@keyframes fadeIn {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
 }

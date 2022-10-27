@@ -1,9 +1,10 @@
-import { TextField, Container } from "@mui/material";
-import { useState } from "react";
+import { Container, TextField } from '@mui/material';
+import Head from 'next/head';
+import { useState } from 'react';
 
-import SearchArticles from "../../components/Content/Search/SearchArticles";
-import SearchBrands from "../../components/Content/Search/SearchBrands";
-import SearchNav from "../../components/Content/Search/SearchNav";
+import SearchArticles from '../../components/Content/Search/SearchArticles';
+import SearchBrands from '../../components/Content/Search/SearchBrands';
+import SearchNav from '../../components/Content/Search/SearchNav';
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,24 +15,27 @@ const SearchPage = () => {
   };
 
   return (
-    <Container>
-      <TextField
-        InputLabelProps={{
-          style: { fontFamily: "BB" },
-        }}
-        label="Enter search term..."
-        variant="standard"
-        fullWidth
-        onKeyDown={(e) => {
-          if (e.key === "Enter") fetchResult(e.target.value);
-        }}
-      />
+    <>
+      <Head>
+        <title>
+          {selected === "brands" ? "Search | Brands" : "Search | Articles"}
+        </title>
+      </Head>
+      <Container>
+        <TextField
+          fullWidth
+          variant="standard"
+          label="Enter search term..."
+          InputLabelProps={{ style: { fontFamily: "BB" } }}
+          onKeyDown={(e) => {if (e.key === "Enter") fetchResult(e.target.value)}}
+        />
 
-      <SearchNav {...{ selected, setSelected }} />
+        <SearchNav {...{ selected, setSelected }} />
 
-      {selected === "brands" && <SearchBrands searchTerm={searchTerm} />}
-      {selected === "articles" && <SearchArticles searchTerm={searchTerm} />}
-    </Container>
+        {selected === "brands" && <SearchBrands searchTerm={searchTerm} />}
+        {selected === "articles" && <SearchArticles searchTerm={searchTerm} />}
+      </Container>
+    </>
   );
 };
 

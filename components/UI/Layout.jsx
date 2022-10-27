@@ -1,6 +1,7 @@
-import { useCallback } from "react";
-import { Container } from "@mui/material";
-import NavV2 from "./Nav";
+import { Container } from '@mui/material';
+import { useCallback } from 'react';
+
+import Nav from './Nav';
 
 const Layout = ({ children, maxWidth = false }) => {
   return (
@@ -9,7 +10,7 @@ const Layout = ({ children, maxWidth = false }) => {
       maxWidth={maxWidth}
       sx={{ marginTop: { xs: 1, sm: "70px" } }}
     >
-      <NavV2 />
+      <Nav />
       {children}
     </Container>
   );

@@ -1,26 +1,14 @@
-import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithPopup,
-  signOut,
-  updateProfile,
-} from "firebase/auth";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-} from "firebase/firestore";
-import { createContext, useCallback, useEffect, useState } from "react";
+import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { createContext, useCallback, useEffect, useState } from 'react';
 
-import { auth, db, provider, storage } from "../firebase";
-import { ref, getDownloadURL, uploadString } from "firebase/storage";
+import { auth, db, provider, storage } from '../firebase';
+
 function uid() {
   return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }
+
 const FBContext = createContext();
 
 const FBContextProvider = ({ children }) => {

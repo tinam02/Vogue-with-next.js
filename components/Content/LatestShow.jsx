@@ -1,13 +1,15 @@
-import { useMemo } from "react";
-import { useQuery } from "@apollo/client";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper";
-import { GET_LATEST_SHOW } from "../../queries";
-import { Box, Typography, Link as MuiLink } from "@mui/material";
-import Link from "next/link";
-import Image from "mui-image";
-import "swiper/css/bundle";
-import Spinner from "../UI/Spinner";
+import 'swiper/css/bundle';
+
+import { useQuery } from '@apollo/client';
+import { Box, Link as MuiLink, Typography } from '@mui/material';
+import Image from 'mui-image';
+import Link from 'next/link';
+import { useMemo } from 'react';
+import { Autoplay, Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import { GET_LATEST_SHOW } from '../../queries';
+import Spinner from '../UI/Spinner';
 
 const LatestShow = () => {
   const { loading, data } = useQuery(GET_LATEST_SHOW);

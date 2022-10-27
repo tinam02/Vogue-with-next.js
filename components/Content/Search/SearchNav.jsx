@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography } from '@mui/material';
 
 const SearchNav = ({ selected, setSelected }) => {
   const isActive = (name) => {

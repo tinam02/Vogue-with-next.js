@@ -10,11 +10,10 @@ const baseTheme: ThemeOptions = {
         {
           props: { variant: "default" },
           style: {
-            padding: "2px 12px",
-            fontSize: "14px",
             margin: "0",
-            // boxShadow: "none",
+            fontSize: "14px",
             fontFamily: "BB",
+            padding: "2px 12px",
             borderRadius: "4px",
             "&:hover": {
               boxShadow: "none",
@@ -32,9 +31,7 @@ const darkPalette = {
     main: "#f5f5f5",
     mainGradient: "linear-gradient(transparent, black)",
   },
-  secondary: {
-    main: "#f5f5f5",
-  },
+  secondary: { main: "#f5f5f5" },
   text: {
     primary: "#fff",
     secondary: "rgba(255, 255, 255, 0.7)",
@@ -50,9 +47,7 @@ const lightPalette = {
     main: "#000",
     mainGradient: "linear-gradient(transparent, white)",
   },
-  secondary: {
-    main: "#000",
-  },
+  secondary: { main: "#000" },
   text: {
     primary: "#000",
     secondary: "rgba(0, 0, 0, 0.50)",

@@ -1,12 +1,16 @@
-import React from 'react'
-import LatestArticles from '../../components/Content/Article/LatestArticles'
+import Head from 'next/head';
+
+import LatestArticles from '../../components/Content/Article/LatestArticles';
 
 const Articles = () => {
   return (
     <>
-        <LatestArticles/>
+      <Head>
+        <title>Articles</title>
+      </Head>
+      <LatestArticles />
     </>
-  )
-}
+  );
+};
 
-export default Articles
+export default Articles;

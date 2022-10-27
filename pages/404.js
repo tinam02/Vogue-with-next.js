@@ -1,23 +1,17 @@
-import { Container, Typography } from "@mui/material";
-import Image from "mui-image";
+import { Typography } from '@mui/material';
 
-const FourOhFour = () => {
-  return (
-    <Container>
-      <Image src={"404.png"} alt="This page does not exist!" />
-      <Typography
-        sx={{
-          textAlign: "center",
-          fontSize: "large",
-          fontWeight: "bold",
-          letterSpacing: "1px",
-        }}
-      >
-        Oops! It looks like nothing was found at this location. Please check the
-        URL and try again.
-      </Typography>
-    </Container>
-  );
-};
+const FourOhFour = () => (
+  <Typography
+    sx={{
+      fontSize: "large",
+      fontWeight: "bold",
+      textAlign: "center",
+      letterSpacing: "1px",
+    }}
+  >
+    Oops! It looks like nothing was found at this location. Please check the URL
+    and try again.
+  </Typography>
+);
 
 export default FourOhFour;

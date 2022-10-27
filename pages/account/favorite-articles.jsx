@@ -1,11 +1,12 @@
-import Head from "next/head";
-import { useContext, useEffect } from "react";
-import { Box, Container } from "@mui/material";
-import { useRouter } from "next/router";
-import { FBContext } from "../../context/FBContext";
-import ProfileNav from "../../components/UI/ProfileNav";
-import ArticleCard from "../../components/UI/ArticleCard";
-import Masonry from "@mui/lab/Masonry";
+import Masonry from '@mui/lab/Masonry';
+import { Box, Container } from '@mui/material';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useContext, useEffect } from 'react';
+
+import ArticleCard from '../../components/UI/ArticleCard';
+import ProfileNav from '../../components/UI/ProfileNav';
+import { FBContext } from '../../context/FBContext';
 
 export default function FavoriteArticles() {
   const { favArticles, currentUser, loading, addFavArticle } =

@@ -3,4 +3,5 @@ declare module "@mui/material/Button" {
     default: true;
   }
 }
+
 export {};

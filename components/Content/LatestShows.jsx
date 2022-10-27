@@ -1,10 +1,11 @@
-import { useCallback, useRef } from "react";
-import { useQuery } from "@apollo/client";
-import { GET_LATEST_SHOWS } from "../../queries";
-import { Box, Container, Grid, Typography } from "@mui/material";
-import ShowCard from "../UI/ShowCard";
-import Link from "next/link";
-import Spinner from "../UI/Spinner";
+import { useQuery } from '@apollo/client';
+import { Box, Container, Grid, Typography } from '@mui/material';
+import Link from 'next/link';
+import { useCallback, useRef } from 'react';
+
+import { GET_LATEST_SHOWS } from '../../queries';
+import ShowCard from '../UI/ShowCard';
+import Spinner from '../UI/Spinner';
 
 const LatestShows = () => {
   const { loading, error, data, fetchMore, networkStatus } = useQuery(
@@ -96,12 +97,12 @@ const LatestShows = () => {
               >
                 <Grid item xs={12} sm={6} md={4} lg={3} ref={lastShowRef}>
                   <ShowCard
-                    resizedUrl={show.photosTout.resizedUrl}
-                    altText={show.photosTout.altText}
-                    title={show.brand.name}
+                    resizedUrl={show.photosTout?.resizedUrl}
+                    altText={show.photosTout.altText || "show"}
+                    title={show.brand?.name}
                     channel={show.channels[0]?.name}
-                    season={show.season.name}
-                    brand={show.brand.name}
+                    season={show.season?.name}
+                    brand={show.brand?.name}
                   />
                 </Grid>
               </Link>
@@ -119,12 +120,12 @@ const LatestShows = () => {
               >
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                   <ShowCard
-                    resizedUrl={show.photosTout.resizedUrl}
-                    altText={show.photosTout.altText}
-                    title={show.brand.name}
+                    resizedUrl={show.photosTout?.resizedUrl}
+                    altText={show.photosTout.altText || "show"}
+                    title={show.brand?.name}
                     channel={show.channels[0]?.name}
-                    season={show.season.name}
-                    brand={show.brand.name}
+                    season={show.season?.name}
+                    brand={show.brand?.name}
                   />
                 </Grid>
               </Link>
