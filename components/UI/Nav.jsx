@@ -172,9 +172,10 @@ const Nav = () => {
       >
         <Link passHref href="/search">
           <SvgIcon
+            component="a"
             sx={{
+              display: "flex",
               color: "text.primary",
-              cursor: "pointer",
               transition: "opacity 0.2s ease-in-out",
               "&:hover": {
                 opacity: 0.75,

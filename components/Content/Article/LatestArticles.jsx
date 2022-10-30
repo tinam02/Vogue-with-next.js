@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import Masonry from '@mui/lab/Masonry';
 import { Box, Container, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 import { useCallback, useContext, useRef } from 'react';
 
 import { FBContext } from '../../../context/FBContext';
@@ -9,10 +10,12 @@ import ArticleCard from '../../UI/ArticleCard';
 import Spinner from '../../UI/Spinner';
 
 const LatestArticles = ({ searchTerm = "" }) => {
+  const { pathname } = useRouter();
   const { favArticles, addFavArticle } = useContext(FBContext);
   const { loading, error, data, fetchMore, networkStatus } = useQuery(
     SEARCH_ARTICLES,
     {
+      skip: pathname === "/search" && searchTerm.length <= 3,
       variables: {
         after: "",
         searchTerm,
@@ -20,6 +23,7 @@ const LatestArticles = ({ searchTerm = "" }) => {
       notifyOnNetworkStatusChange: true,
     }
   );
+ 
   const articleIsFavorite = useCallback(
     (article) => {
       return favArticles.some((favArticle) => favArticle.slug === article.slug);
@@ -70,7 +74,7 @@ const LatestArticles = ({ searchTerm = "" }) => {
     [data, handleLoadMore, loading]
   );
 
-  if (networkStatus === 1) return <Spinner />;
+  if (networkStatus === 1 || networkStatus === 2) return <Spinner />;
   if (error) return <p>Error...</p>;
   if (!data) return null;
   return (

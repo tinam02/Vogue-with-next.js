@@ -1,7 +1,6 @@
-import { Box, Typography } from "@mui/material";
-import Image from "mui-image";
-import React from "react";
-
+import { Box, Typography } from '@mui/material';
+import Image from 'mui-image';
+ 
 const ShowCard = ({
   slug,
   url,
@@ -28,7 +27,7 @@ const ShowCard = ({
         },
       }}
     >
-      <Image src={resizedUrl} alt={altText} sx={{}} />
+      <Image src={resizedUrl} alt={altText} />
     </Box>
 
     <Box sx={{ textAlign: "center" }}>

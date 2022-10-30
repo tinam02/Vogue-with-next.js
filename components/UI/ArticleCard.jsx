@@ -1,15 +1,15 @@
-import { Box, ButtonBase, Link as MuiLink, Typography } from '@mui/material';
-import Image from 'mui-image';
-import Link from 'next/link';
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
+import { Box, ButtonBase, Link as MuiLink, Typography } from "@mui/material";
+import Image from "mui-image";
+import Link from "next/link";
+import React from "react";
+import ReactMarkdown from "react-markdown";
 
-import convertDate from '../../services/convertDate';
-import { BookmarkBlank, BookmarkFilled } from './Icons/Bookmark';
+import convertDate from "../../services/convertDate";
+import { BookmarkBlank, BookmarkFilled } from "./Icons/Bookmark";
 
 const ArticleCard = ({ article, isFave = false, onFave }) => (
   <Box
-    sx={{
+    sx={{ 
       display: "flex",
       justifyContent: "center",
       flexDirection: "column",

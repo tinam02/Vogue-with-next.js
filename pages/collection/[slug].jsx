@@ -1,19 +1,30 @@
-import 'yet-another-react-lightbox/styles.css';
+import "yet-another-react-lightbox/styles.css";
 
-import { useQuery } from '@apollo/client';
-import { Box, ButtonBase, Container, Grid, Link as MuiLink, SvgIcon, Typography } from '@mui/material';
-import Image from 'mui-image';
-import Head from 'next/head';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import Lightbox from 'yet-another-react-lightbox';
-import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import { useQuery } from "@apollo/client";
+import {
+  Box,
+  ButtonBase,
+  Container,
+  Grid,
+  Link as MuiLink,
+  SvgIcon,
+  Typography,
+} from "@mui/material";
+import Image from "mui-image";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
-import AuthorCard from '../../components/UI/AuthorCard';
-import Spinner from '../../components/UI/Spinner';
-import { GET_REVIEW_IMAGES } from '../../queries';
+import AuthorCard from "../../components/UI/AuthorCard";
+import Spinner from "../../components/UI/Spinner";
+import { GET_REVIEW_IMAGES } from "../../queries";
+import removeBrackets from "../../services/removeBrackets";
+import stripMarkdown from "../../services/stripMarkdown";
+import formatBody from "../../services/bodyRegex";
 
 const CollectionPage = () => {
   const [openImgIdx, setOpenImgIdx] = useState(-1);
@@ -149,7 +160,7 @@ const CollectionPage = () => {
             ),
           }}
         >
-          {body}
+          {removeBrackets(body)}
         </ReactMarkdown>
         <Box
           sx={{

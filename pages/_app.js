@@ -1,15 +1,15 @@
-import '../styles/globals.css';
+import "../styles/globals.css";
 
-import { ApolloProvider } from '@apollo/client';
-import { CacheProvider } from '@emotion/react';
-import { CssBaseline } from '@mui/material';
-import { useRouter } from 'next/router';
+import { ApolloProvider } from "@apollo/client";
+import { CacheProvider } from "@emotion/react";
+import { CssBaseline } from "@mui/material";
+import { useRouter } from "next/router";
 
-import client from '../apollo';
-import Layout from '../components/UI/Layout';
-import { FBContextProvider } from '../context/FBContext';
-import { ToggleColorMode } from '../context/themeContext';
-import createEmotionCache from '../styles/emotioncache';
+import client from "../apollo";
+import Layout from "../components/UI/Layout";
+import { FBContextProvider } from "../context/FBContext";
+import { ToggleColorMode } from "../context/themeContext";
+import createEmotionCache from "../styles/emotioncache";
 
 const emoCache = createEmotionCache();
 

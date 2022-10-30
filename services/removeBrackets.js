@@ -1,4 +1,7 @@
 //removes brackets & links
 export default function removeBrackets(str) {
-  return str.replace(/[\[\]']+/g, "").replace(/\(.*?\)/g, "");
+  return str
+    .replace(/[\[\]']+/g, "")
+    .replace(/\(.*?\)/g, "")
+    .replace(/\{.*?\}/g, "");
 }

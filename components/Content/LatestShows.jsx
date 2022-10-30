@@ -118,7 +118,7 @@ const LatestShows = () => {
                   },
                 }}
               >
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={12} sm={6} md={4} lg={3} >
                   <ShowCard
                     resizedUrl={show.photosTout?.resizedUrl}
                     altText={show.photosTout.altText || "show"}

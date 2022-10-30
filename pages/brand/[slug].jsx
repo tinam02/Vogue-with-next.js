@@ -15,16 +15,20 @@ import { useCallback, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
 import ShowCard from "../../components/UI/ShowCard";
+import Spinner from "../../components/UI/Spinner";
 import { GET_BRAND_SHOWS } from "../../queries";
 import removeBrackets from "../../services/removeBrackets";
 
 const SeasonPage = () => {
   const router = useRouter();
   const { slug } = router.query;
-  const { loading, error, data, fetchMore } = useQuery(GET_BRAND_SHOWS, {
-    variables: { after: "", filter: { brand: { slug: slug } } },
-    notifyOnNetworkStatusChange: true,
-  });
+  const { loading, error, data, fetchMore, networkStatus } = useQuery(
+    GET_BRAND_SHOWS,
+    {
+      variables: { after: "", filter: { brand: { slug: slug } } },
+      notifyOnNetworkStatusChange: true,
+    }
+  );
 
   const [expanded, setExpanded] = useState(false);
 
@@ -70,6 +74,7 @@ const SeasonPage = () => {
     [data, handleLoadMore, loading]
   );
 
+  if (networkStatus === 1) return <Spinner />;
   if (error) return <p>Error...</p>;
   if (!data) return null;
   return (
@@ -305,8 +310,20 @@ const SeasonPage = () => {
                       slug: show.slug,
                     },
                   }}
+                  passHref
                 >
-                  <Grid item xs={12} sm={6} md={4} lg={3} ref={lastShowRef}>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    ref={lastShowRef}
+                    component="a"
+                    sx={{
+                      textDecoration: "none",
+                    }}
+                  >
                     <ShowCard
                       resizedUrl={show.photosTout.resizedUrl}
                       altText={show.photosTout.altText}
@@ -321,6 +338,7 @@ const SeasonPage = () => {
               return (
                 <Link
                   key={show.id}
+                  passHref
                   href={{
                     pathname: "/collection/[slug]",
                     query: {
@@ -328,7 +346,17 @@ const SeasonPage = () => {
                     },
                   }}
                 >
-                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    component="a"
+                    sx={{
+                      textDecoration: "none",
+                    }}
+                  >
                     <ShowCard
                       resizedUrl={show.photosTout.resizedUrl}
                       altText={show.photosTout.altText}
@@ -342,7 +370,8 @@ const SeasonPage = () => {
             }
           })}
         </Grid>
-      </Container>
+      </Container>{" "}
+      {networkStatus === 3 && <Spinner />}
     </>
   );
 };
