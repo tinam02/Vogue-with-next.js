@@ -39,7 +39,7 @@ const ArticlePage = () => {
 
   const embedImages = useMemo(() => {
     if (!data) return false;
-    const images = data.articleCopilot.bodyEmbeds.filter(
+    const images = data.articleCopilot?.bodyEmbeds.filter(
       (embed) => embed.__typename === "Image"
     );
     return images;
@@ -47,7 +47,7 @@ const ArticlePage = () => {
 
   const embedProducts = useMemo(() => {
     if (!data) return false;
-    const products = data.articleCopilot.bodyEmbeds.filter(
+    const products = data.articleCopilot?.bodyEmbeds.filter(
       (embed) => embed.__typename === "Product"
     );
     return products;

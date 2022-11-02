@@ -90,6 +90,7 @@ const FBContextProvider = ({ children }) => {
 
       await addDoc(favArticlesRef, article);
       setFavArticles((prev) => [...prev, article]);
+      return { type: "success", message: "Article added to favorites" };
     },
     [currentUser, favArticles]
   );
@@ -98,14 +99,20 @@ const FBContextProvider = ({ children }) => {
     async (name) => {
       setLoading(true);
       try {
-        await updateProfile(currentUser, { displayName: name });
+        await updateProfile(auth.currentUser, { displayName: name });
         const userRef = doc(db, "users", currentUser.uid);
         await setDoc(userRef, { name }, { merge: true });
         setCurrentUser((prev) => ({ ...prev, displayName: name }));
+        setLoading(false);
+        return { type: "success", message: "Username updated" };
       } catch (error) {
-        console.log(error);
+        // console.log(error);
+        setLoading(false);
+        return {
+          type: "error",
+          message: "There was an error updating your username",
+        };
       }
-      setLoading(false);
     },
     [currentUser]
   );
@@ -118,14 +125,19 @@ const FBContextProvider = ({ children }) => {
         const snapshot = await uploadString(storageRef, file, "data_url");
         const url = await getDownloadURL(snapshot.ref);
         console.log(url);
-        await updateProfile(currentUser, { photoURL: url });
+        await updateProfile(auth.currentUser, { photoURL: url });
         const userRef = doc(db, "users", currentUser.uid);
         await setDoc(userRef, { avatar: url }, { merge: true });
         setCurrentUser((prev) => ({ ...prev, photoURL: url }));
+        setLoading(false);
+        return { type: "success", message: "Avatar updated" };
       } catch (error) {
-        console.log(error);
+        setLoading(false);
+        return {
+          type: "error",
+          message: "There was an error updating your avatar",
+        };
       }
-      setLoading(false);
     },
     [currentUser]
   );

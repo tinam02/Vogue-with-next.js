@@ -109,3 +109,4 @@ export const articleFields = gql`
     }
   }
 `;
+// theress an error on sellername bc it cant return null

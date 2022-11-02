@@ -1,13 +1,14 @@
-import { useQuery } from '@apollo/client';
-import Masonry from '@mui/lab/Masonry';
-import { Box, Container, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
-import { useCallback, useContext, useRef } from 'react';
+import { useQuery } from "@apollo/client";
+import Masonry from "@mui/lab/Masonry";
+import { Box, Container, Typography } from "@mui/material";
+import { useRouter } from "next/router";
+import { useCallback, useContext, useRef } from "react";
+import useAlerts from "../../../context/AlertContext";
 
-import { FBContext } from '../../../context/FBContext';
-import { SEARCH_ARTICLES } from '../../../queries';
-import ArticleCard from '../../UI/ArticleCard';
-import Spinner from '../../UI/Spinner';
+import { FBContext } from "../../../context/FBContext";
+import { SEARCH_ARTICLES } from "../../../queries";
+import ArticleCard from "../../UI/ArticleCard";
+import Spinner from "../../UI/Spinner";
 
 const LatestArticles = ({ searchTerm = "" }) => {
   const { pathname } = useRouter();
@@ -23,7 +24,8 @@ const LatestArticles = ({ searchTerm = "" }) => {
       notifyOnNetworkStatusChange: true,
     }
   );
- 
+  const { showAlert } = useAlerts();
+
   const articleIsFavorite = useCallback(
     (article) => {
       return favArticles.some((favArticle) => favArticle.slug === article.slug);
@@ -33,7 +35,8 @@ const LatestArticles = ({ searchTerm = "" }) => {
 
   const addFave = async (article) => {
     if (!data) return;
-    await addFavArticle(article);
+    const res = await addFavArticle(article);
+    if (res) showAlert(res);
   };
 
   const handleLoadMore = useCallback(() => {

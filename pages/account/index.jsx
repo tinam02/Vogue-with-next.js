@@ -6,18 +6,28 @@ import { useContext, useEffect, useRef } from 'react';
 import { BookmarkFilled } from '../../components/UI/Icons/Bookmark';
 import ProfileNav from '../../components/UI/ProfileNav';
 import Spinner from '../../components/UI/Spinner';
+import useAlerts from '../../context/AlertContext';
 import { FBContext } from '../../context/FBContext';
 
 const Account = () => {
   const { updateUsername, favArticles, uploadToStorage, currentUser, loading } =
     useContext(FBContext);
+  const { showAlert } = useAlerts();
+
   const router = useRouter();
   const { push } = router;
 
   const nameRef = useRef(null);
 
-  const handleSubmit = () => {
-    updateUsername(nameRef.current.value);
+  const handleSubmit = async () => {
+    if (!nameRef.current.value || nameRef.current.value.length < 3) {
+      showAlert({
+        message: "Username must be at least 3 characters long",
+      });
+      return;
+    }
+    const res = await updateUsername(nameRef.current.value);
+    showAlert(res);
   };
 
   useEffect(() => {
@@ -30,9 +40,11 @@ const Account = () => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = async () => {
-      await uploadToStorage(reader.result);
+      const res = await uploadToStorage(reader.result);
+      showAlert(res);
     };
   };
+
   if (loading) return <Spinner />;
   if (!currentUser) return <div>Not logged in</div>;
   return (
