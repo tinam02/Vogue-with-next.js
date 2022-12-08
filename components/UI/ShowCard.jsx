@@ -1,6 +1,6 @@
-import { Box, Typography } from '@mui/material';
-import Image from 'mui-image';
- 
+import { Box, Typography } from "@mui/material";
+import Image from "mui-image";
+
 const ShowCard = ({
   slug,
   url,
@@ -10,6 +10,7 @@ const ShowCard = ({
   channel = "REVIEW",
   season,
   brand,
+  isFave,
 }) => (
   <Box
     sx={{
@@ -27,7 +28,16 @@ const ShowCard = ({
         },
       }}
     >
-      <Image src={resizedUrl} alt={altText} />
+      <Image
+        src={resizedUrl || "/placeholder.jpg"}
+        alt={altText}
+        sx={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+      />
     </Box>
 
     <Box sx={{ textAlign: "center" }}>

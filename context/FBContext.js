@@ -13,6 +13,7 @@ const FBContext = createContext();
 
 const FBContextProvider = ({ children }) => {
   const [favArticles, setFavArticles] = useState([]);
+  const [favShows, setFavShows] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -64,7 +65,7 @@ const FBContextProvider = ({ children }) => {
     async (article) => {
       if (!currentUser) {
         setFavArticles([]);
-        return;
+        return { type: "error", message: "Please log in!" };
       }
       const userRef = doc(db, "users", currentUser.uid);
       const favArticlesRef = collection(userRef, "favorites");
@@ -93,6 +94,41 @@ const FBContextProvider = ({ children }) => {
       return { type: "success", message: "Article added to favorites" };
     },
     [currentUser, favArticles]
+  );
+
+  const addFavShow = useCallback(
+    async (show) => {
+      if (!currentUser) {
+        setFavShows([]);
+        return { type: "error", message: "Please log in!" };
+      }
+      const userRef = doc(db, "users", currentUser.uid);
+      const favShowsRef = collection(userRef, "shows");
+
+      if (favShows.some((fav) => fav.slug === show.slug)) {
+        //find in firebase and delete
+        const docRef = await getDocs(collection(userRef, "shows"));
+        docRef.forEach((doc) => {
+          if (doc.data().slug === show.slug) {
+            deleteDoc(doc.ref)
+              .then(() => {
+                setFavShows((prev) =>
+                  prev.filter((fav) => fav.slug !== show.slug)
+                );
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        });
+        return;
+      }
+
+      await addDoc(favShowsRef, show);
+      setFavShows((prev) => [...prev, show]);
+      return { type: "success", message: "Show added to favorites" };
+    },
+    [currentUser, favShows]
   );
 
   const updateUsername = useCallback(
@@ -157,6 +193,23 @@ const FBContextProvider = ({ children }) => {
         console.log(error);
       }
     };
+
+    const getShows = async () => {
+      if (!currentUser) return;
+      try {
+        const userRef = doc(db, "users", currentUser.uid);
+        const showsRef = collection(userRef, "shows");
+        const showsSnapshot = await getDocs(showsRef);
+        if (showsSnapshot.empty) return;
+        const shows = showsSnapshot.docs.map((doc) => doc.data());
+        setFavShows(shows);
+        return shows;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getShows();
     getFaves();
   }, [currentUser]);
 
@@ -168,7 +221,9 @@ const FBContextProvider = ({ children }) => {
         currentUser,
         loading,
         addFavArticle,
+        addFavShow,
         favArticles,
+        favShows,
         updateUsername,
         uploadToStorage,
       }}

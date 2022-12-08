@@ -85,12 +85,12 @@ const SeasonPage = () => {
                 >
                   <Grid item xs={12} sm={6} md={4} lg={3} ref={lastShowRef}>
                     <ShowCard
-                      resizedUrl={show.photosTout.resizedUrl}
-                      altText={show.photosTout.altText}
-                      title={show.brand.name}
+                      resizedUrl={show.photosTout?.resizedUrl}
+                      altText={show.photosTout?.altText}
+                      title={show.brand?.name}
                       channel={show.channels[0]?.name}
-                      season={show.season.name}
-                      brand={show.brand.name}
+                      season={show.season?.name}
+                      brand={show.brand?.name}
                     />
                   </Grid>
                 </Link>
@@ -108,12 +108,12 @@ const SeasonPage = () => {
                 >
                   <Grid item xs={12} sm={6} md={4} lg={3}>
                     <ShowCard
-                      resizedUrl={show.photosTout.resizedUrl}
-                      altText={show.photosTout.altText}
-                      title={show.brand.name}
+                      resizedUrl={show.photosTout?.resizedUrl}
+                      altText={show.photosTout?.altText}
+                      title={show.brand?.name}
                       channel={show.channels[0]?.name}
-                      season={show.season.name}
-                      brand={show.brand.name}
+                      season={show.season?.name}
+                      brand={show.brand?.name}
                     />
                   </Grid>
                 </Link>

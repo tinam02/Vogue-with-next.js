@@ -35,7 +35,7 @@ const LatestShow = () => {
         >
           <MuiLink>
             <Image
-              src={slide.photosTout.url}
+              src={slide.photosTout?.url}
               alt="runway image"
               sx={{
                 p: {

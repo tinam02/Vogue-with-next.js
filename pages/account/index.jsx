@@ -1,17 +1,34 @@
-import { Avatar, Box, Button, Divider, Input, InputLabel, Link, SvgIcon, TextField, Typography } from '@mui/material';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useContext, useEffect, useRef } from 'react';
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Input,
+  InputLabel,
+  Link,
+  SvgIcon,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useRef } from "react";
 
-import { BookmarkFilled } from '../../components/UI/Icons/Bookmark';
-import ProfileNav from '../../components/UI/ProfileNav';
-import Spinner from '../../components/UI/Spinner';
-import useAlerts from '../../context/AlertContext';
-import { FBContext } from '../../context/FBContext';
+import { BookmarkFilled } from "../../components/UI/Icons/Bookmark";
+import ProfileNav from "../../components/UI/ProfileNav";
+import Spinner from "../../components/UI/Spinner";
+import useAlerts from "../../context/AlertContext";
+import { FBContext } from "../../context/FBContext";
 
 const Account = () => {
-  const { updateUsername, favArticles, uploadToStorage, currentUser, loading } =
-    useContext(FBContext);
+  const {
+    updateUsername,
+    favArticles,
+    uploadToStorage,
+    currentUser,
+    loading,
+    favShows,
+  } = useContext(FBContext);
   const { showAlert } = useAlerts();
 
   const router = useRouter();
@@ -122,7 +139,7 @@ const Account = () => {
                 }}
               >
                 Name
-              </Typography>{" "}
+              </Typography>
               <Box
                 sx={{
                   display: "flex",
@@ -223,18 +240,42 @@ const Account = () => {
                 >
                   {currentUser?.displayName}
                 </Typography>
-                <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
+                <Box sx={{ display: "flex", gap: 0.5 }}>
                   <BookmarkFilled fontSize="16" />
-                  <Typography
-                    variant="body2"
+                  <Box
                     sx={{
-                      fontSize: 24,
-                      fontFamily: "BB",
-                      color: "text.secondary",
+                      display: "flex",
+                      gap: 0.5,
+                      flexDirection: "column",
                     }}
                   >
-                    {favArticles?.length}
-                  </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontFamily: "BB",
+                        color: "text.secondary",
+                      }}
+                    >
+                      {favArticles?.length === 0
+                        ? "No articles bookmarked"
+                        : favArticles?.length === 1
+                        ? "1 article bookmarked"
+                        : `${favArticles?.length} articles bookmarked`}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontFamily: "BB",
+                        color: "text.secondary",
+                      }}
+                    >
+                      {favShows?.length === 0
+                        ? "No shows saved"
+                        : favShows?.length === 1
+                        ? "1 show saved"
+                        : `${favShows?.length} shows saved`}
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             </Box>

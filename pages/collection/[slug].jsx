@@ -14,17 +14,21 @@ import Image from "mui-image";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 import AuthorCard from "../../components/UI/AuthorCard";
+import {
+  BookmarkBlank,
+  BookmarkFilled,
+} from "../../components/UI/Icons/Bookmark";
 import Spinner from "../../components/UI/Spinner";
+import { FBContext } from "../../context/FBContext";
 import { GET_REVIEW_IMAGES } from "../../queries";
 import removeBrackets from "../../services/removeBrackets";
-import stripMarkdown from "../../services/stripMarkdown";
-import formatBody from "../../services/bodyRegex";
+import useAlerts from "../../context/AlertContext";
 
 const CollectionPage = () => {
   const [openImgIdx, setOpenImgIdx] = useState(-1);
@@ -37,6 +41,14 @@ const CollectionPage = () => {
   const { loading, data } = useQuery(GET_REVIEW_IMAGES, {
     variables: { slug },
   });
+  const { favShows, addFavShow } = useContext(FBContext);
+  const { showAlert } = useAlerts();
+
+  const addFave = async (show) => {
+    if (!data) return;
+    const res = await addFavShow(show);
+    if (res) showAlert(res);
+  };
 
   if (loading) return <Spinner />;
   if (!data || !data.fashionShowV2) return <p>no data</p>;
@@ -50,7 +62,9 @@ const CollectionPage = () => {
     review: { body, contributor },
     galleries: { collection, detail },
   } = data.fashionShowV2;
-  const slides = collection.slidesV2.slide?.map((slide) => ({
+
+  
+  const slides = collection?.slidesV2?.slide?.map((slide) => ({
     src: slide.photosTout.url,
     alt: slide.photosTout.altText,
   }));
@@ -75,39 +89,58 @@ const CollectionPage = () => {
       >
         <Box
           sx={{
-            fontFamily: "BB",
             display: "flex",
-            gap: 2,
-            fontSize: "14px",
+            justifyContent: "space-between",
             mb: 2,
           }}
         >
-          <Link
-            passHref
-            href={{
-              pathname: "/season/[slug]",
-              query: {
-                slug: season.slug,
-              },
+          <Box
+            sx={{
+              fontFamily: "BB",
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 2,
+              fontSize: "14px",
             }}
           >
-            <MuiLink underline="hover" sx={{ color: "text.secondary" }}>
-              / {season.name.toLowerCase()}
-            </MuiLink>
-          </Link>
-          <Link
-            passHref
-            href={{
-              pathname: "/brand/[slug]",
-              query: {
-                slug: brand.slug,
-              },
-            }}
+            <Link
+              passHref
+              href={{
+                pathname: "/season/[slug]",
+                query: {
+                  slug: season.slug,
+                },
+              }}
+            >
+              <MuiLink underline="hover" sx={{ color: "text.secondary" }}>
+                / {season.name.toLowerCase()}
+              </MuiLink>
+            </Link>
+            <Link
+              passHref
+              href={{
+                pathname: "/brand/[slug]",
+                query: {
+                  slug: brand.slug,
+                },
+              }}
+            >
+              <MuiLink underline="hover" sx={{ color: "text.secondary" }}>
+                / {brand.name.toLowerCase()}
+              </MuiLink>
+            </Link>
+          </Box>
+          <ButtonBase
+            onClick={() => addFave(data.fashionShowV2)}
+            sx={{ p: 0, m: 0 }}
+            disableRipple
           >
-            <MuiLink underline="hover" sx={{ color: "text.secondary" }}>
-              / {brand.name.toLowerCase()}
-            </MuiLink>
-          </Link>
+            {favShows?.find((show) => show.slug === slug) ? (
+              <BookmarkFilled />
+            ) : (
+              <BookmarkBlank />
+            )}
+          </ButtonBase>
         </Box>
         <Typography variant="body2" sx={{ color: "text.secondary", pt: "2px" }}>
           {city?.name}
@@ -178,7 +211,7 @@ const CollectionPage = () => {
           )}
         </Box>
         <Grid container spacing={2}>
-          {collection.slidesV2.slide.map((slide, idx) => (
+          {collection?.slidesV2?.slide?.map((slide, idx) => (
             <Grid item xs={12} sm={6} md={3} key={idx}>
               <Image
                 src={slide.photosTout.resizedUrl}
@@ -244,7 +277,7 @@ const CollectionPage = () => {
         {detailSlides && openDetailsGallery && (
           <>
             <Grid container spacing={2}>
-              {detail.slidesV2.slide.map((slide, idx) => {
+              {detail?.slidesV2?.slide?.map((slide, idx) => {
                 return (
                   <Grid item xs={6} sm={4} md={3} key={idx}>
                     <Image

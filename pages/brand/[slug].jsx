@@ -80,7 +80,7 @@ const SeasonPage = () => {
   return (
     <>
       <Head>
-        <title>{data.allContent.Content[0].brand.name}</title>
+        <title>{data.allContent.Content[0]?.brand?.name}</title>
       </Head>
       <Container
         maxWidth="lg"
@@ -114,7 +114,7 @@ const SeasonPage = () => {
             &#65103;{slug}&#65103;
           </Typography>
           {/* designers */}
-          {data.allContent.Content[0]?.brand.designers.length > 0 && (
+          {data.allContent.Content[0]?.brand?.designers.length > 0 && (
             <Box
               sx={{
                 display: "flex",
@@ -325,11 +325,11 @@ const SeasonPage = () => {
                     }}
                   >
                     <ShowCard
-                      resizedUrl={show.photosTout.resizedUrl}
-                      altText={show.photosTout.altText}
-                      title={show.title}
+                      resizedUrl={show.photosTout?.resizedUrl}
+                      altText={show.photosTout?.altText}
+                      title={show?.title}
                       channel={show.channels[0]?.name}
-                      season={show.season.name}
+                      season={show.season?.name}
                     />
                   </Grid>
                 </Link>
@@ -358,11 +358,11 @@ const SeasonPage = () => {
                     }}
                   >
                     <ShowCard
-                      resizedUrl={show.photosTout.resizedUrl}
-                      altText={show.photosTout.altText}
-                      title={show.title}
+                      resizedUrl={show.photosTout?.resizedUrl}
+                      altText={show.photosTout?.altText}
+                      title={show?.title}
                       channel={show.channels[0]?.name}
-                      season={show.season.name}
+                      season={show.season?.name}
                     />
                   </Grid>
                 </Link>

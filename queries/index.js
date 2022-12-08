@@ -61,6 +61,7 @@ export const GET_REVIEW_IMAGES = gql`
   ${fashionShowGalleryFields}
   query fashionShowV2($slug: String) {
     fashionShowV2(slug: $slug) {
+      slug
       photosTout {
         ... on Image {
           url
