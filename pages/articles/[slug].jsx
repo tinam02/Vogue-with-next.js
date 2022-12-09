@@ -251,11 +251,11 @@ const ArticlePage = () => {
               {embedProducts.map((embed) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={embed.id}>
                   <ProductCard
-                    seller={embed.offers[0]?.sellerName}
-                    name={embed.name}
-                    price={embed.offers[0]?.price}
+                    seller={embed?.offers[0]?.sellerName}
+                    name={embed?.name}
+                    price={embed?.offers[0]?.price}
                     image={embed.photosTout?.resizedUrl}
-                    uri={embed.offers[0]?.purchaseUri}
+                    uri={embed?.offers[0]?.purchaseUri}
                   />
                 </Grid>
               ))}

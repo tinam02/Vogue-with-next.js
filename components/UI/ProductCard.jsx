@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 
-const ProductCard = ({ seller='', uri, image, name, price }) => (
+const ProductCard = ({ seller = "RETAIL", uri, image, name, price }) => (
   <Card sx={{ cursor: "pointer" }} onClick={() => window.open(uri, "_blank")}>
     <CardMedia component="img" image={image} />
     <CardContent sx={{ pt: 2, pb: 0 }}>

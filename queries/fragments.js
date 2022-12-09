@@ -69,7 +69,7 @@ export const articleFields = gql`
           }
         }
         offers {
-          sellerName
+         
           price
           purchaseUri
         }
