@@ -25,10 +25,10 @@ import {
   BookmarkFilled,
 } from "../../components/UI/Icons/Bookmark";
 import Spinner from "../../components/UI/Spinner";
-import { FBContext } from "../../context/FBContext";
-import { GET_REVIEW_IMAGES } from "../../queries";
-import removeBrackets from "../../services/removeBrackets";
 import useAlerts from "../../context/AlertContext";
+import { FBContext } from "../../context/FBContext";
+import { GET_COLLECTION_IMAGES, GET_REVIEW_IMAGES } from "../../queries";
+import removeBrackets from "../../services/removeBrackets";
 
 const CollectionPage = () => {
   const [openImgIdx, setOpenImgIdx] = useState(-1);
@@ -41,6 +41,15 @@ const CollectionPage = () => {
   const { loading, data } = useQuery(GET_REVIEW_IMAGES, {
     variables: { slug },
   });
+  //get different query if no data
+  const { data: slideData } = useQuery(GET_COLLECTION_IMAGES, {
+    variables: {
+      brandSlug: slug?.split("/")[1],
+      seasonSlug: slug?.split("/")[0],
+    },
+    skip: data || !slug,
+  });
+
   const { favShows, addFavShow } = useContext(FBContext);
   const { showAlert } = useAlerts();
 
@@ -49,9 +58,42 @@ const CollectionPage = () => {
     const res = await addFavShow(show);
     if (res) showAlert(res);
   };
-
   if (loading) return <Spinner />;
-  if (!data || !data.fashionShowV2) return <p>no data</p>;
+  if (!data && slideData)
+    return (
+      <>
+        Check later for the written review!
+        <Grid container spacing={2}>
+          {slideData.fashionGalleryByType?.slidesV2?.slide?.map(
+            (slide, idx) => (
+              <Grid item xs={12} sm={6} md={3} key={idx}>
+                <Image
+                  src={slide.photosTout.url}
+                  alt={"Runway image"}
+                  sx={{
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setOpenImgIdx(idx)}
+                />
+              </Grid>
+            )
+          )}
+        </Grid>
+        <Lightbox
+          slides={slideData.fashionGalleryByType?.slidesV2?.slide?.map(
+            (slide) => ({
+              src: slide.photosTout.url,
+            })
+          )}
+          open={openImgIdx > -1}
+          index={openImgIdx}
+          close={() => setOpenImgIdx(-1)}
+          plugins={[Zoom]}
+        />
+      </>
+    );
+  if (!data || !data.fashionShowV2)
+    return <p>No data yet - Check back later!</p>;
   const {
     city,
     brand,
@@ -63,7 +105,6 @@ const CollectionPage = () => {
     galleries: { collection, detail },
   } = data.fashionShowV2;
 
-  
   const slides = collection?.slidesV2?.slide?.map((slide) => ({
     src: slide.photosTout.url,
     alt: slide.photosTout.altText,

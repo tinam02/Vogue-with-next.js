@@ -56,7 +56,7 @@ const LatestShows = () => {
   );
 
   if (networkStatus === 1) return <Spinner />;
-  if (error) return <p>Error...</p>;
+  if (error) return <p>GraphQL error</p>;
   if (!data) return null;
   return (
     <Container

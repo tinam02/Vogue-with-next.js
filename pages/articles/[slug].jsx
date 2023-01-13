@@ -1,20 +1,34 @@
-import { useQuery } from '@apollo/client';
-import { Box, ButtonBase, Container, Divider, Grid, Typography } from '@mui/material';
-import Image from 'mui-image';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useCallback, useContext, useMemo, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import { useQuery } from "@apollo/client";
+import {
+  Box,
+  ButtonBase,
+  Container,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
+import Image from "mui-image";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useCallback, useContext, useMemo, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
-import AuthorCard from '../../components/UI/AuthorCard';
-import { BookmarkBlank, BookmarkFilled } from '../../components/UI/Icons/Bookmark';
-import { ShowFourImages, ShowSingleImage } from '../../components/UI/Icons/ImageAmount';
-import ProductCard from '../../components/UI/ProductCard';
-import Spinner from '../../components/UI/Spinner';
-import { FBContext } from '../../context/FBContext';
-import { GET_ARTICLE } from '../../queries';
-import formatBody from '../../services/bodyRegex';
-import convertDate from '../../services/convertDate';
+import AuthorCard from "../../components/UI/AuthorCard";
+import {
+  BookmarkBlank,
+  BookmarkFilled,
+} from "../../components/UI/Icons/Bookmark";
+import {
+  ShowFourImages,
+  ShowSingleImage,
+} from "../../components/UI/Icons/ImageAmount";
+import ProductCard from "../../components/UI/ProductCard";
+import Spinner from "../../components/UI/Spinner";
+import useAlerts from "../../context/AlertContext";
+import { FBContext } from "../../context/FBContext";
+import { GET_ARTICLE } from "../../queries";
+import formatBody from "../../services/bodyRegex";
+import convertDate from "../../services/convertDate";
 
 const ArticlePage = () => {
   const [imagesToShow, setImagesToShow] = useState(12);
@@ -24,6 +38,7 @@ const ArticlePage = () => {
     variables: { slug },
   });
   const { favArticles, addFavArticle } = useContext(FBContext);
+  const { showAlert } = useAlerts();
 
   const articleIsFavorite = useCallback(
     (article) => {
@@ -34,7 +49,8 @@ const ArticlePage = () => {
 
   const addFave = async (article) => {
     if (!data) return;
-    await addFavArticle(article);
+    const res = await addFavArticle(article);
+    if (res) showAlert(res);
   };
 
   const embedImages = useMemo(() => {
