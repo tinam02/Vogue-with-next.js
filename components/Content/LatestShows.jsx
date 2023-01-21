@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client";
 import { Box, Container, Grid, Typography } from "@mui/material";
-import Link from "next/link";
 import { useCallback, useRef } from "react";
 
 import { GET_LATEST_SHOWS } from "../../queries";
@@ -86,49 +85,39 @@ const LatestShows = () => {
         {data.allContent.Content.map((show, i) => {
           if (data.allContent.Content.length == i + 1) {
             return (
-              <Link
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                ref={lastShowRef}
                 key={show.id}
-                href={{
-                  pathname: "/collection/[slug]",
-                  query: {
-                    slug: show.slug,
-                  },
-                }}
               >
-                <Grid item xs={12} sm={6} md={4} lg={3} ref={lastShowRef}>
-                  <ShowCard
-                    resizedUrl={show.photosTout?.resizedUrl}
-                    altText={show.photosTout?.altText || "show"}
-                    title={show.brand?.name}
-                    channel={show.channels[0]?.name}
-                    season={show.season?.name}
-                    brand={show.brand?.name}
-                  />
-                </Grid>
-              </Link>
+                <ShowCard
+                  resizedUrl={show.photosTout?.resizedUrl}
+                  altText={show.photosTout?.altText || "show"}
+                  title={show.brand?.name}
+                  channel={show.channels[0]?.name}
+                  season={show.season?.name}
+                  brand={show.brand?.name}
+                  slug={show?.slug}
+                />
+              </Grid>
             );
           } else {
             return (
-              <Link
-                key={show.id}
-                href={{
-                  pathname: "/collection/[slug]",
-                  query: {
-                    slug: show.slug,
-                  },
-                }}
-              >
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <ShowCard
-                    resizedUrl={show.photosTout?.resizedUrl}
-                    altText={show.photosTout?.altText || "show"}
-                    title={show.brand?.name}
-                    channel={show.channels[0]?.name}
-                    season={show.season?.name}
-                    brand={show.brand?.name}
-                  />
-                </Grid>
-              </Link>
+              <Grid item xs={12} sm={6} md={4} lg={3} key={show.id}>
+                <ShowCard
+                  resizedUrl={show.photosTout?.resizedUrl}
+                  altText={show.photosTout?.altText || "show"}
+                  title={show.brand?.name}
+                  channel={show.channels[0]?.name}
+                  season={show.season?.name}
+                  brand={show.brand?.name}
+                  slug={show?.slug}
+                />
+              </Grid>
             );
           }
         })}

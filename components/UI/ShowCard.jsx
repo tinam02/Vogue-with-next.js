@@ -1,5 +1,6 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Link as MuiLink, Typography } from "@mui/material";
 import Image from "mui-image";
+import Link from "next/link";
 
 const ShowCard = ({
   slug,
@@ -39,7 +40,16 @@ const ShowCard = ({
         }}
       />
     </Box>
-
+    <Link
+        passHref
+        href={{
+          pathname: "/collection/[slug]",
+          query: {
+            slug: slug,
+          },
+        }}
+      >
+        <MuiLink underline="hover">
     <Box sx={{ textAlign: "center" }}>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Typography variant="body2" color="text.primary">
@@ -54,7 +64,8 @@ const ShowCard = ({
           {brand}
         </Typography>
       )}
-    </Box>
+    </Box></MuiLink>
+    </Link>
   </Box>
 );
 

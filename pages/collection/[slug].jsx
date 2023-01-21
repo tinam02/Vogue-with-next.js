@@ -42,13 +42,16 @@ const CollectionPage = () => {
     variables: { slug },
   });
   //get different query if no data
-  const { data: slideData } = useQuery(GET_COLLECTION_IMAGES, {
-    variables: {
-      brandSlug: slug?.split("/")[1],
-      seasonSlug: slug?.split("/")[0],
-    },
-    skip: data || !slug,
-  });
+  const { data: slideData, loading: loadingAlt } = useQuery(
+    GET_COLLECTION_IMAGES,
+    {
+      variables: {
+        brandSlug: slug?.split("/")[1],
+        seasonSlug: slug?.split("/")[0],
+      },
+      skip: data || !slug,
+    }
+  );
 
   const { favShows, addFavShow } = useContext(FBContext);
   const { showAlert } = useAlerts();
@@ -58,7 +61,7 @@ const CollectionPage = () => {
     const res = await addFavShow(show);
     if (res) showAlert(res);
   };
-  if (loading) return <Spinner />;
+  if (loading || loadingAlt) return <Spinner />;
   if (!data && slideData)
     return (
       <>
