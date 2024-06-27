@@ -1,16 +1,17 @@
-import { useQuery } from "@apollo/client";
-import { Box, Container, Grid, Typography } from "@mui/material";
-import { useCallback, useRef } from "react";
+import { useQuery } from '@apollo/client';
+import { Box, Container, Grid, Typography } from '@mui/material';
+import { useCallback, useRef } from 'react';
 
-import { GET_LATEST_SHOWS } from "../../queries";
-import ShowCard from "../UI/ShowCard";
-import Spinner from "../UI/Spinner";
+import { GET_LATEST_SHOWS } from '../../queries';
+import ShowCard from '../UI/ShowCard';
+import Spinner from '../UI/Spinner';
+import Link from 'next/link';
 
 const LatestShows = () => {
   const { loading, error, data, fetchMore, networkStatus } = useQuery(
     GET_LATEST_SHOWS,
     {
-      variables: { after: "" },
+      variables: { after: '' },
       notifyOnNetworkStatusChange: true, //ovo vraca loading state (ili network status 3) da se key ne bi ponavljao!! bez ovoga je loading uvek false
     }
   );
@@ -40,11 +41,11 @@ const LatestShows = () => {
   //inf scroll
   const observer = useRef(null);
   const lastShowRef = useCallback(
-    (node) => {
+    node => {
       if (loading) return;
       if (!data) return;
       if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
+      observer.current = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting && data.allContent.pageInfo.hasNextPage) {
           handleLoadMore();
         }
@@ -59,7 +60,7 @@ const LatestShows = () => {
   if (!data) return null;
   return (
     <Container
-      maxWidth="lg"
+      maxWidth='lg'
       sx={{
         mb: {
           xs: 7,
@@ -69,14 +70,14 @@ const LatestShows = () => {
     >
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
           mb: 1.5,
           mt: 3,
         }}
       >
-        <Typography variant="h4" sx={{ fontSize: "20px" }}>
+        <Typography variant='h4' sx={{ fontSize: '20px' }}>
           LATEST ADDITIONS
         </Typography>
       </Box>
@@ -96,7 +97,7 @@ const LatestShows = () => {
               >
                 <ShowCard
                   resizedUrl={show.photosTout?.resizedUrl}
-                  altText={show.photosTout?.altText || "show"}
+                  altText={show.photosTout?.altText || 'show'}
                   title={show.brand?.name}
                   channel={show.channels[0]?.name}
                   season={show.season?.name}
@@ -107,17 +108,39 @@ const LatestShows = () => {
             );
           } else {
             return (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={show.id}>
-                <ShowCard
-                  resizedUrl={show.photosTout?.resizedUrl}
-                  altText={show.photosTout?.altText || "show"}
-                  title={show.brand?.name}
-                  channel={show.channels[0]?.name}
-                  season={show.season?.name}
-                  brand={show.brand?.name}
-                  slug={show?.slug}
-                />
-              </Grid>
+              <Link
+                key={show.slug}
+                href={{
+                  pathname: '/collection/[slug]',
+                  query: {
+                    slug: show.slug,
+                  },
+                }}
+                passHref
+              >
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  key={show.id}
+                  component='a'
+                  sx={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  <ShowCard
+                    resizedUrl={show.photosTout?.resizedUrl}
+                    altText={show.photosTout?.altText || 'show'}
+                    title={show.brand?.name}
+                    channel={show.channels[0]?.name}
+                    season={show.season?.name}
+                    brand={show.brand?.name}
+                    slug={show?.slug}
+                  />
+                </Grid>
+              </Link>
             );
           }
         })}

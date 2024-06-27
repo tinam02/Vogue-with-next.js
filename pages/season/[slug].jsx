@@ -12,7 +12,7 @@ const SeasonPage = () => {
   const router = useRouter();
   const { slug } = router.query;
   const { loading, error, data, fetchMore } = useQuery(GET_SEASON_SHOWS, {
-    variables: { after: "", filter: { season: { slug: slug } } },
+    variables: { after: '', filter: { season: { slug: slug } } },
     notifyOnNetworkStatusChange: true,
   });
 
@@ -40,11 +40,11 @@ const SeasonPage = () => {
 
   const observer = useRef(null);
   const lastShowRef = useCallback(
-    (node) => {
+    node => {
       if (loading) return;
       if (!data) return;
       if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
+      observer.current = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting && data.allContent.pageInfo.hasNextPage) {
           handleLoadMore();
         }
@@ -59,13 +59,13 @@ const SeasonPage = () => {
   return (
     <>
       <Head>
-        <title>{data.allContent.Content[0]?.season.name || "Season"}</title>
+        <title>{data.allContent.Content[0]?.season.name || 'Season'}</title>
       </Head>
-      <Container maxWidth="lg">
+      <Container maxWidth='lg'>
         <Typography
           sx={{
-            textAlign: "center",
-            fontFamily: "BB",
+            textAlign: 'center',
+            fontFamily: 'BB',
           }}
         >
           &#65103;{slug}&#65103;
@@ -77,7 +77,7 @@ const SeasonPage = () => {
                 <Link
                   key={show.id}
                   href={{
-                    pathname: "/collection/[slug]",
+                    pathname: '/collection/[slug]',
                     query: {
                       slug: show.slug,
                     },
@@ -100,13 +100,24 @@ const SeasonPage = () => {
                 <Link
                   key={show.id}
                   href={{
-                    pathname: "/collection/[slug]",
+                    pathname: '/collection/[slug]',
                     query: {
                       slug: show.slug,
                     },
                   }}
+                  passHref
                 >
-                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    component='a'
+                    sx={{
+                      textDecoration: 'none',
+                    }}
+                  >
                     <ShowCard
                       resizedUrl={show.photosTout?.resizedUrl}
                       altText={show.photosTout?.altText}
